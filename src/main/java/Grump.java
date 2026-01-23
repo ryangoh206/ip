@@ -10,43 +10,52 @@ public class Grump {
 
         // Loop, read commands from stdin and add to tasks until 'bye'
         Scanner scanner = new Scanner(System.in);
-        while (true) {
+        boolean isExit = false;
+        while (!isExit) {
             System.out.println("____________________________________________________________\n");
             String userInput = scanner.nextLine().trim();
             System.out.println("____________________________________________________________");
-            if (userInput.equals("bye")) {
-                System.out.println("Bye. Hope to see you again soon!");
-                System.out.println("____________________________________________________________");
-                break;
-            } else if (userInput.equals("list")) {
-                printTasks();
-            } else if (userInput.startsWith("mark")) {
-                markTaskAsDone(userInput);
-            } else if (userInput.startsWith("unmark")) {
-                markTaskAsUndone(userInput);
-            } else if (userInput.startsWith("delete")) {
-                deleteTask(userInput);
-            } else {
+
+            try {
                 String parts[] = userInput.split(" ", 2);
-                try {
-                    String command = parts[0];
-                    if (command.equals("todo")) {
+                Command command = Command.parse(parts[0]);
+
+                switch (command) {
+                    case BYE:
+                        System.out.println("Bye. Hope to see you again soon!");
+                        System.out.println("____________________________________________________________");
+                        isExit = true;
+                        break;
+                    case LIST:
+                        printTasks();
+                        break;
+                    case MARK:
+                        markTaskAsDone(userInput);
+                        break;
+                    case UNMARK:
+                        markTaskAsUndone(userInput);
+                        break;
+                    case DELETE:
+                        deleteTask(userInput);
+                        break;
+                    case TODO:
                         addTodo(userInput);
-                    } else if (command.equals("deadline")) {
+                        break;
+                    case DEADLINE:
                         addDeadline(userInput);
-                    } else if (command.equals("event")) {
+                        break;
+                    case EVENT:
                         addEvent(userInput);
-                    } else {
-                        throw new InvalidCommandException("I'm sorry, but I don't know what that means.");
-                    }
-                } catch (MissingArgException | InvalidCommandException e) {
-                    System.out.println(e.getMessage());
-                    continue;
+                        break;
                 }
-                
-                System.out.println("Got it. I've added this task:\n  " + tasks.get(tasks.size() - 1));
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-            } 
+                if (command == Command.TODO || command == Command.DEADLINE || command == Command.EVENT) {
+                    System.out.println("Got it. I've added this task:\n  " + tasks.get(tasks.size() - 1));
+                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                }
+            } catch (MissingArgException | InvalidCommandException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
         }
         scanner.close();
     }
