@@ -53,6 +53,7 @@ public class Grump {
                     System.out.println("I'm sorry, but I don't know what that means.");
                     continue;
                 }
+                System.out.println("Got it. I've added this task:\n  " + tasks.get(tasks.size() - 1));
                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 
             }
@@ -70,7 +71,6 @@ public class Grump {
     
     public static void addTodo(String description) {
         tasks.add(new ToDo(description));
-        System.out.println("Got it. I've added this task:\n    " + tasks.get(tasks.size() - 1));
     }
 
     public static void addDeadline(String userInput) {
@@ -78,7 +78,6 @@ public class Grump {
         String description = parts[0].trim();
         String by = parts[1].trim();
         tasks.add(new Deadline(description, by));
-        System.out.println("Got it. I've added this task:\n    " + tasks.get(tasks.size() - 1));
     }
     public static void addEvent(String userInput) {
         String parts[] = userInput.split("/from", 2);
@@ -87,6 +86,5 @@ public class Grump {
         String start = parts[0].trim();
         String end = parts[1].trim();
         tasks.add(new Event(description, start, end));
-        System.out.println("Got it. I've added this task:\n    " + tasks.get(tasks.size() - 1));
     }
 }
