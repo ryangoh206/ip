@@ -24,6 +24,8 @@ public class Grump {
                 markTaskAsDone(userInput);
             } else if (userInput.startsWith("unmark")) {
                 markTaskAsUndone(userInput);
+            } else if (userInput.startsWith("delete")) {
+                deleteTask(userInput);
             } else {
                 String parts[] = userInput.split(" ", 2);
                 try {
@@ -44,8 +46,7 @@ public class Grump {
                 
                 System.out.println("Got it. I've added this task:\n  " + tasks.get(tasks.size() - 1));
                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                
-            }
+            } 
         }
         scanner.close();
     }
@@ -115,6 +116,30 @@ public class Grump {
         }
     }
     
+    public static void deleteTask(String userInput) {
+        try {
+            String parts[] = userInput.split(" ");
+            if (parts.length < 2) {
+                throw new MissingArgException("Please provide the task number to delete.");
+            }
+            int taskNum = Integer.parseInt(parts[1]) - 1;
+            Task oldTask = tasks.get(taskNum);
+            tasks.remove(taskNum);
+            System.out.println("Noted! I've deleted this task:");
+            System.out.println("  " + oldTask);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("The task number you provided is invalid.");
+            return;
+        } catch (NumberFormatException e) {
+            System.out.println("Please provide a valid task number.");
+            return;
+        } catch (MissingArgException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+    }
+
     public static void addTodo(String userInput) {
         String parts[] = userInput.split(" ", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
