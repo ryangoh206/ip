@@ -41,8 +41,20 @@ public class Grump {
                 System.out.println("OK, I've marked this task as not done yet:");
                 System.out.println("  " + tasks.get(taskNum));
             } else {
-                tasks.add(new Task(userInput));
-                System.out.println("added: " + userInput);
+                String parts[] = userInput.split(" ", 2);
+                String command = parts[0];
+                if (command.equals("todo")) {
+                    addTodo(userInput);
+                } else if (command.equals("deadline")) {
+                    addDeadline(userInput);
+                } else if (command.equals("event")) {
+                    addEvent(userInput);
+                } else {
+                    System.out.println("I'm sorry, but I don't know what that means.");
+                    continue;
+                }
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                
             }
         }
         scanner.close();
@@ -54,5 +66,27 @@ public class Grump {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
         }
+    }
+    
+    public static void addTodo(String description) {
+        tasks.add(new ToDo(description));
+        System.out.println("Got it. I've added this task:\n    " + tasks.get(tasks.size() - 1));
+    }
+
+    public static void addDeadline(String userInput) {
+        String parts[] = userInput.split("/by", 2);
+        String description = parts[0].trim();
+        String by = parts[1].trim();
+        tasks.add(new Deadline(description, by));
+        System.out.println("Got it. I've added this task:\n    " + tasks.get(tasks.size() - 1));
+    }
+    public static void addEvent(String userInput) {
+        String parts[] = userInput.split("/from", 2);
+        String description = parts[0].trim();
+        parts = parts[1].split("/to", 2);
+        String start = parts[0].trim();
+        String end = parts[1].trim();
+        tasks.add(new Event(description, start, end));
+        System.out.println("Got it. I've added this task:\n    " + tasks.get(tasks.size() - 1));
     }
 }
