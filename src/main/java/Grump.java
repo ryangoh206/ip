@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Grump {
-    private static ArrayList<String> tasks = new ArrayList<>();
+    private static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         String logo = "  ____ ____  _   _ __  __ ____  \n"
@@ -28,8 +28,20 @@ public class Grump {
                 break;
             } else if (userInput.equals("list")) {
                 printTasks();
+            } else if (userInput.startsWith("mark")) {
+                String parts[] = userInput.split(" ");
+                int taskNum = Integer.parseInt(parts[1]) - 1;
+                tasks.get(taskNum).markAsDone();
+                System.out.println("Nice! I've marked this task as done:");
+                System.out.println("  " + tasks.get(taskNum));
+            } else if (userInput.startsWith("unmark")) {
+                String parts[] = userInput.split(" ");
+                int taskNum = Integer.parseInt(parts[1]) - 1;
+                tasks.get(taskNum).markAsNotDone();
+                System.out.println("OK, I've marked this task as not done yet:");
+                System.out.println("  " + tasks.get(taskNum));
             } else {
-                tasks.add(userInput);
+                tasks.add(new Task(userInput));
                 System.out.println("added: " + userInput);
             }
         }
@@ -38,6 +50,7 @@ public class Grump {
 
     // Print all tasks with numbering
     public static void printTasks() {
+        System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + ". " + tasks.get(i));
         }
