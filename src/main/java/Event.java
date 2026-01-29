@@ -15,6 +15,11 @@ public class Event extends Task {
         this.end = end;
     }
 
+    @Override
+    public String toCsvString() {
+        return "E," + description + "," + (isDone ? "1" : "0") + "," + start + "," + end;
+    }
+
     public String toString() {
         return "[E]" + super.toString() + " (from: " + start + " to: " + end + ")";
     }

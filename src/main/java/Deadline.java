@@ -13,6 +13,11 @@ public class Deadline extends Task {
     }
 
     @Override
+    public String toCsvString() {
+        return "D," + description + "," + (isDone ? "1" : "0") + "," + by;
+    }
+
+    @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by + ")";
     }

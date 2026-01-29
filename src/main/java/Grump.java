@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -65,6 +66,7 @@ public class Grump {
                             "Got it. I've added this task:\n  " + tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 }
+                saveToHardDisk();
             } catch (MissingArgException | InvalidCommandException e) {
                 System.out.println(e.getMessage());
                 continue;
@@ -216,7 +218,7 @@ public class Grump {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",", 5);
-                String taskType = parts[0]; // need to catch array access error later
+                String taskType = parts[0];
                 String description = parts[1];
                 boolean isDone = parts[2].equals("1");
 
@@ -255,4 +257,18 @@ public class Grump {
         }
     }
 
+    // Write all tasks to hard disk
+    public static void saveToHardDisk() {
+        File dataFile = new File(DATA_FILE_PATH);
+        dataFile.getParentFile().mkdirs();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(dataFile))) {
+            for (Task task : tasks) {
+                bw.write(task.toCsvString());
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving tasks to hard disk.");
+        }
+    }
 }
