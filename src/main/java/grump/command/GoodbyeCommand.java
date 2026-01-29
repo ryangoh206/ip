@@ -1,3 +1,9 @@
+package grump.command;
+
+import grump.task.TaskList;
+import grump.storage.Storage;
+import grump.ui.Ui;
+
 public class GoodbyeCommand extends Command {
 
     @Override
