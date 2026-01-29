@@ -1,0 +1,48 @@
+import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class Ui {
+    public void printWelcomeMessage() {
+        String logo = "  ____ ____  _   _ __  __ ____  \n" + " / ___|  _ \\| | | |  \\/  |  _ \\ \n"
+                + "| |  _| |_) | | | | |\\/| | |_) |\n" + "| |_| |  _ <| |_| | |  | |  __/ \n"
+                + " \\____|_| \\_\\\\___/|_|  |_|_|    \n";
+        this.printLine();
+        System.out.println();
+        System.out.println(logo);
+        this.printLine();
+
+        System.out.println("Hello! I'm Grump! The date today is: "
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
+                + ".\nWhat can I do for you?");
+    }
+
+    public void printGoodbyeMessage() {
+        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println("____________________________________________________________");
+    }
+
+    public void printTasks(ArrayList<Task> tasks) {
+        if (tasks.size() == 0) {
+            System.out.println("You have no tasks in your list.");
+        } else {
+            System.out.println("Here are the tasks in your list:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println((i + 1) + ". " + tasks.get(i).toString());
+            }
+        }
+    }
+
+    public void printAddedTask(Task task, int totalTasks) {
+        System.out.println("Got it. I've added this task:\n  " + task);
+        System.out.println("Now you have " + totalTasks + " tasks in the list.");
+    }
+
+    public void printLine() {
+        System.out.println("____________________________________________________________");
+    }
+
+    public void printErrorMessage(String message) {
+        System.out.println(message);
+    }
+}

@@ -20,7 +20,9 @@ public class Grump {
 
     public static void main(String[] args) {
 
-        printWelcomeMessage();
+        Ui ui = new Ui();
+
+        ui.printWelcomeMessage();
 
         loadFromHardDisk();
 
@@ -28,9 +30,10 @@ public class Grump {
         Scanner scanner = new Scanner(System.in);
         boolean isExit = false;
         while (!isExit) {
-            System.out.println("____________________________________________________________\n");
+            ui.printLine();
+            System.out.println();
             String userInput = scanner.nextLine().trim();
-            System.out.println("____________________________________________________________");
+            ui.printLine();
 
             try {
                 String parts[] = userInput.split(" ", 2);
@@ -38,13 +41,11 @@ public class Grump {
 
                 switch (command) {
                 case BYE:
-                    System.out.println("Bye. Hope to see you again soon!");
-                    System.out.println(
-                            "____________________________________________________________");
+                    ui.printGoodbyeMessage();
                     isExit = true;
                     break;
                 case LIST:
-                    printTasks();
+                    ui.printTasks(tasks);
                     break;
                 case MARK:
                     markTaskAsDone(userInput);
@@ -67,45 +68,15 @@ public class Grump {
                 }
                 if (command == Command.TODO || command == Command.DEADLINE
                         || command == Command.EVENT) {
-                    System.out.println(
-                            "Got it. I've added this task:\n  " + tasks.get(tasks.size() - 1));
-                    System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                    ui.printAddedTask(tasks.get(tasks.size() - 1), tasks.size());
                 }
                 saveToHardDisk();
             } catch (MissingArgException | InvalidCommandException e) {
-                System.out.println(e.getMessage());
+                ui.printErrorMessage(e.getMessage());
                 continue;
             }
         }
         scanner.close();
-    }
-
-    // Print Welcome Message
-    public static void printWelcomeMessage() {
-
-        String logo = "  ____ ____  _   _ __  __ ____  \n" + " / ___|  _ \\| | | |  \\/  |  _ \\ \n"
-                + "| |  _| |_) | | | | |\\/| | |_) |\n" + "| |_| |  _ <| |_| | |  | |  __/ \n"
-                + " \\____|_| \\_\\\\___/|_|  |_|_|    \n";
-        System.out.println("____________________________________________________________\n");
-        System.out.println(logo);
-        System.out.println("____________________________________________________________");
-
-        System.out.println("Hello! I'm Grump! The date today is: "
-                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
-                + ".\nWhat can I do for you?");
-    }
-
-    // Print all tasks with numbering
-    public static void printTasks() {
-        if (tasks.size() == 0) {
-            System.out.println("You have no tasks in your list.");
-            return;
-        } else {
-            System.out.println("Here are the tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + ". " + tasks.get(i));
-            }
-        }
     }
 
     public static void markTaskAsUndone(String userInput) {
