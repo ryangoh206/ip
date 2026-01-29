@@ -1,4 +1,12 @@
+package grump.command;
+
 import java.time.LocalDateTime;
+import grump.exception.MissingArgException;
+import grump.task.Deadline;
+import grump.task.TaskList;
+import grump.parser.Parser;
+import grump.storage.Storage;
+import grump.ui.Ui;
 
 public class DeadlineCommand extends Command {
     private final String userInput;

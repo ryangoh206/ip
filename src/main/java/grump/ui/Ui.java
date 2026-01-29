@@ -1,6 +1,10 @@
+package grump.ui;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import grump.task.Task;
+import grump.task.TaskList;
 
 public class Ui {
     Scanner scanner;
