@@ -1,12 +1,22 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Grump {
     private static ArrayList<Task> tasks = new ArrayList<>();
+    private static final String DATA_FILE_PATH = "data/tasks.csv";
 
     public static void main(String[] args) {
 
         printWelcomeMessage();
+
+        loadFromHardDisk();
 
         // Loop, read commands from stdin and add to tasks until 'bye'
         Scanner scanner = new Scanner(System.in);
@@ -21,35 +31,38 @@ public class Grump {
                 Command command = Command.parse(parts[0]);
 
                 switch (command) {
-                    case BYE:
-                        System.out.println("Bye. Hope to see you again soon!");
-                        System.out.println("____________________________________________________________");
-                        isExit = true;
-                        break;
-                    case LIST:
-                        printTasks();
-                        break;
-                    case MARK:
-                        markTaskAsDone(userInput);
-                        break;
-                    case UNMARK:
-                        markTaskAsUndone(userInput);
-                        break;
-                    case DELETE:
-                        deleteTask(userInput);
-                        break;
-                    case TODO:
-                        addTodo(userInput);
-                        break;
-                    case DEADLINE:
-                        addDeadline(userInput);
-                        break;
-                    case EVENT:
-                        addEvent(userInput);
-                        break;
+                case BYE:
+                    System.out.println("Bye. Hope to see you again soon!");
+                    System.out.println(
+                            "____________________________________________________________");
+                    isExit = true;
+                    break;
+                case LIST:
+                    printTasks();
+                    break;
+                case MARK:
+                    markTaskAsDone(userInput);
+                    break;
+                case UNMARK:
+                    markTaskAsUndone(userInput);
+                    break;
+                case DELETE:
+                    deleteTask(userInput);
+                    break;
+                case TODO:
+                    addTodo(userInput);
+                    break;
+                case DEADLINE:
+                    addDeadline(userInput);
+                    break;
+                case EVENT:
+                    addEvent(userInput);
+                    break;
                 }
-                if (command == Command.TODO || command == Command.DEADLINE || command == Command.EVENT) {
-                    System.out.println("Got it. I've added this task:\n  " + tasks.get(tasks.size() - 1));
+                if (command == Command.TODO || command == Command.DEADLINE
+                        || command == Command.EVENT) {
+                    System.out.println(
+                            "Got it. I've added this task:\n  " + tasks.get(tasks.size() - 1));
                     System.out.println("Now you have " + tasks.size() + " tasks in the list.");
                 }
             } catch (MissingArgException | InvalidCommandException e) {
@@ -62,10 +75,8 @@ public class Grump {
 
     // Print Welcome Message
     public static void printWelcomeMessage() {
-        String logo = "  ____ ____  _   _ __  __ ____  \n"
-                + " / ___|  _ \\| | | |  \\/  |  _ \\ \n"
-                + "| |  _| |_) | | | | |\\/| | |_) |\n"
-                + "| |_| |  _ <| |_| | |  | |  __/ \n"
+        String logo = "  ____ ____  _   _ __  __ ____  \n" + " / ___|  _ \\| | | |  \\/  |  _ \\ \n"
+                + "| |  _| |_) | | | | |\\/| | |_) |\n" + "| |_| |  _ <| |_| | |  | |  __/ \n"
                 + " \\____|_| \\_\\\\___/|_|  |_|_|    \n";
         System.out.println("____________________________________________________________\n");
         System.out.println(logo);
@@ -124,7 +135,7 @@ public class Grump {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public static void deleteTask(String userInput) {
         try {
             String parts[] = userInput.split(" ");
@@ -164,7 +175,8 @@ public class Grump {
         }
         parts = parts[1].split("/by", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
-            throw new MissingArgException("Please provide a valid by date/time for the deadline task.");
+            throw new MissingArgException(
+                    "Please provide a valid by date/time for the deadline task.");
         } else if (parts[0].trim().isEmpty()) {
             throw new MissingArgException("Please provide a description for the deadline task.");
         }
@@ -172,7 +184,7 @@ public class Grump {
         String by = parts[1].trim();
         tasks.add(new Deadline(description, by));
     }
-    
+
     public static void addEvent(String userInput) {
         String parts[] = userInput.split(" ", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
@@ -180,7 +192,8 @@ public class Grump {
         }
         parts = parts[1].split("/from", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
-            throw new MissingArgException("Please provide the start and end date/time for the event task.");
+            throw new MissingArgException(
+                    "Please provide the start and end date/time for the event task.");
         } else if (parts[0].trim().isEmpty()) {
             throw new MissingArgException("Please provide a description for the event task.");
         }
@@ -195,4 +208,51 @@ public class Grump {
         String end = parts[1].trim();
         tasks.add(new Event(description, start, end));
     }
+
+    // Load tasks from hard disk
+    public static void loadFromHardDisk() {
+        File dataFile = new File(DATA_FILE_PATH);
+        try (BufferedReader br = new BufferedReader(new FileReader(dataFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",", 5);
+                String taskType = parts[0]; // need to catch array access error later
+                String description = parts[1];
+                boolean isDone = parts[2].equals("1");
+
+                Task task = null;
+                switch (taskType) {
+                case "T":
+                    task = new ToDo(description, isDone);
+                    break;
+                case "D":
+                    String by = parts[3];
+                    task = new Deadline(description, isDone, by);
+                    break;
+                case "E":
+                    String from = parts[3];
+                    String to = parts[4];
+                    task = new Event(description, isDone, from, to);
+                    break;
+                }
+                if (task != null) {
+                    tasks.add(task);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Data file not found. Creating a new data file.");
+            // Create data directory and file if not exist
+            try {
+                dataFile.getParentFile().mkdirs();
+                dataFile.createNewFile();
+            } catch (IOException ioException) {
+                System.out.println("An error occurred while creating the data directory and file.");
+            }
+
+        } catch (IOException | ArrayIndexOutOfBoundsException e) {
+            System.out.println(
+                    "An error occurred while loading tasks from hard disk. Ensure data file is in correct format.");
+        }
+    }
+
 }
