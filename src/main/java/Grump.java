@@ -1,13 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -15,17 +8,15 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 
 public class Grump {
-    private static ArrayList<Task> tasks = new ArrayList<>();
-    private static final String DATA_FILE_PATH = "data/tasks.csv";
 
     public static void main(String[] args) {
 
         Ui ui = new Ui();
-        Storage storage = new Storage(DATA_FILE_PATH);
+        Storage storage = new Storage("data/tasks.csv");
 
         ui.printWelcomeMessage();
 
-        storage.load().forEach(task -> tasks.add(task));
+        TaskList tasks = new TaskList(storage.load());
 
         // Loop, read commands from stdin and add to tasks until 'bye'
         Scanner scanner = new Scanner(System.in);
@@ -49,27 +40,27 @@ public class Grump {
                     ui.printTasks(tasks);
                     break;
                 case MARK:
-                    markTaskAsDone(userInput);
+                    markTaskAsDone(userInput, tasks);
                     break;
                 case UNMARK:
-                    markTaskAsUndone(userInput);
+                    markTaskAsUndone(userInput, tasks);
                     break;
                 case DELETE:
-                    deleteTask(userInput);
+                    deleteTask(userInput, tasks);
                     break;
                 case TODO:
-                    addTodo(userInput);
+                    addTodo(userInput, tasks);
                     break;
                 case DEADLINE:
-                    addDeadline(userInput);
+                    addDeadline(userInput, tasks);
                     break;
                 case EVENT:
-                    addEvent(userInput);
+                    addEvent(userInput, tasks);
                     break;
                 }
                 if (command == Command.TODO || command == Command.DEADLINE
                         || command == Command.EVENT) {
-                    ui.printAddedTask(tasks.get(tasks.size() - 1), tasks.size());
+                    ui.printAddedTask(tasks.getTask(tasks.size() - 1), tasks.size());
                 }
                 storage.save(tasks);
             } catch (MissingArgException | InvalidCommandException e) {
@@ -80,16 +71,16 @@ public class Grump {
         scanner.close();
     }
 
-    public static void markTaskAsUndone(String userInput) {
+    public static void markTaskAsUndone(String userInput, TaskList tasks) {
         try {
             String parts[] = userInput.split(" ");
             if (parts.length < 2) {
                 throw new MissingArgException("Please provide the task number to mark as done.");
             }
             int taskNum = Integer.parseInt(parts[1]) - 1;
-            tasks.get(taskNum).markAsNotDone();
+            tasks.getTask(taskNum).markAsNotDone();
             System.out.println("OK, I've marked this task as not done yet:");
-            System.out.println("  " + tasks.get(taskNum));
+            System.out.println("  " + tasks.getTask(taskNum));
         } catch (IndexOutOfBoundsException e) {
             System.out.println("The task number you provided is invalid.");
         } catch (NumberFormatException e) {
@@ -99,16 +90,16 @@ public class Grump {
         }
     }
 
-    public static void markTaskAsDone(String userInput) {
+    public static void markTaskAsDone(String userInput, TaskList tasks) {
         try {
             String parts[] = userInput.split(" ");
             if (parts.length < 2) {
                 throw new MissingArgException("Please provide the task number to mark as done.");
             }
             int taskNum = Integer.parseInt(parts[1]) - 1;
-            tasks.get(taskNum).markAsDone();
+            tasks.getTask(taskNum).markAsDone();
             System.out.println("Nice! I've marked this task as done:");
-            System.out.println("  " + tasks.get(taskNum));
+            System.out.println("  " + tasks.getTask(taskNum));
         } catch (IndexOutOfBoundsException e) {
             System.out.println("The task number you provided is invalid.");
         } catch (NumberFormatException e) {
@@ -118,15 +109,15 @@ public class Grump {
         }
     }
 
-    public static void deleteTask(String userInput) {
+    public static void deleteTask(String userInput, TaskList tasks) {
         try {
             String parts[] = userInput.split(" ");
             if (parts.length < 2) {
                 throw new MissingArgException("Please provide the task number to delete.");
             }
             int taskNum = Integer.parseInt(parts[1]) - 1;
-            Task oldTask = tasks.get(taskNum);
-            tasks.remove(taskNum);
+            Task oldTask = tasks.getTask(taskNum);
+            tasks.removeTask(taskNum);
             System.out.println("Noted! I've deleted this task:");
             System.out.println("  " + oldTask);
         } catch (IndexOutOfBoundsException e) {
@@ -142,15 +133,15 @@ public class Grump {
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 
-    public static void addTodo(String userInput) {
+    public static void addTodo(String userInput, TaskList tasks) {
         String parts[] = userInput.split(" ", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new MissingArgException("Please provide a description for the todo task.");
         }
-        tasks.add(new ToDo(parts[1].trim()));
+        tasks.addTask(new ToDo(parts[1].trim()));
     }
 
-    public static void addDeadline(String userInput) {
+    public static void addDeadline(String userInput, TaskList tasks) {
         String parts[] = userInput.split(" ", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new MissingArgException("Please provide valid arguments for the deadline task.");
@@ -164,10 +155,10 @@ public class Grump {
         }
         String description = parts[0].trim();
         LocalDateTime by = parseStringToDateTime(parts[1].trim());
-        tasks.add(new Deadline(description, by));
+        tasks.addTask(new Deadline(description, by));
     }
 
-    public static void addEvent(String userInput) {
+    public static void addEvent(String userInput, TaskList tasks) {
         String parts[] = userInput.split(" ", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new MissingArgException("Please provide valid arguments for the event task.");
@@ -189,7 +180,7 @@ public class Grump {
         LocalDateTime start = parseStringToDateTime(parts[0].trim());
         LocalDateTime end = parseStringToDateTime(parts[1].trim());
 
-        tasks.add(new Event(description, start, end));
+        tasks.addTask(new Event(description, start, end));
     }
 
     public static LocalDateTime parseStringToDateTime(String dateTimeStr) {

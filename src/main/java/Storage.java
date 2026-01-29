@@ -66,11 +66,11 @@ public class Storage {
         return tasks;
     }
 
-    public void save(ArrayList<Task> tasks) {
+    public void save(TaskList tasks) {
         File dataFile = new File(this.filePath);
         dataFile.getParentFile().mkdirs();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(dataFile))) {
-            for (Task task : tasks) {
+            for (Task task : tasks.getTasks()) {
                 bw.write(task.toCsvString());
                 bw.newLine();
             }
