@@ -8,6 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 
 public class Grump {
     private static ArrayList<Task> tasks = new ArrayList<>();
@@ -77,6 +82,7 @@ public class Grump {
 
     // Print Welcome Message
     public static void printWelcomeMessage() {
+
         String logo = "  ____ ____  _   _ __  __ ____  \n" + " / ___|  _ \\| | | |  \\/  |  _ \\ \n"
                 + "| |  _| |_) | | | | |\\/| | |_) |\n" + "| |_| |  _ <| |_| | |  | |  __/ \n"
                 + " \\____|_| \\_\\\\___/|_|  |_|_|    \n";
@@ -84,7 +90,9 @@ public class Grump {
         System.out.println(logo);
         System.out.println("____________________________________________________________");
 
-        System.out.println("Hello! I'm Grump\nWhat can I do for you?");
+        System.out.println("Hello! I'm Grump! The date today is: "
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
+                + ".\nWhat can I do for you?");
     }
 
     // Print all tasks with numbering
@@ -183,7 +191,7 @@ public class Grump {
             throw new MissingArgException("Please provide a description for the deadline task.");
         }
         String description = parts[0].trim();
-        String by = parts[1].trim();
+        LocalDateTime by = parseStringToDateTime(parts[1].trim());
         tasks.add(new Deadline(description, by));
     }
 
@@ -206,9 +214,25 @@ public class Grump {
         } else if (parts[0].trim().isEmpty()) {
             throw new MissingArgException("Please provide the start date/time for the event task.");
         }
-        String start = parts[0].trim();
-        String end = parts[1].trim();
+        LocalDateTime start = parseStringToDateTime(parts[0].trim());
+        LocalDateTime end = parseStringToDateTime(parts[1].trim());
+
         tasks.add(new Event(description, start, end));
+    }
+
+    public static LocalDateTime parseStringToDateTime(String dateTimeStr) {
+        try {
+            DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy")
+                    .optionalStart().appendPattern(" HH:mm").optionalEnd()
+                    .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                    .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0).toFormatter();
+
+            LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
+            return dateTime;
+        } catch (DateTimeParseException e) {
+            throw new MissingArgException(
+                    "Please provide date and time in the format dd-MM-yyyy HH:mm or dd-MM-yyyy.");
+        }
     }
 
     // Load tasks from hard disk
@@ -228,12 +252,12 @@ public class Grump {
                     task = new ToDo(description, isDone);
                     break;
                 case "D":
-                    String by = parts[3];
+                    LocalDateTime by = LocalDateTime.parse(parts[3]);
                     task = new Deadline(description, isDone, by);
                     break;
                 case "E":
-                    String from = parts[3];
-                    String to = parts[4];
+                    LocalDateTime from = LocalDateTime.parse(parts[3]);
+                    LocalDateTime to = LocalDateTime.parse(parts[4]);
                     task = new Event(description, isDone, from, to);
                     break;
                 }

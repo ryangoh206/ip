@@ -1,15 +1,18 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
 
-    protected String start;
-    protected String end;
+    protected LocalDateTime start;
+    protected LocalDateTime end;
 
-    public Event(String description, String start, String end) {
+    public Event(String description, LocalDateTime start, LocalDateTime end) {
         super(description);
         this.start = start;
         this.end = end;
     }
 
-    public Event(String description, boolean isDone, String start, String end) {
+    public Event(String description, boolean isDone, LocalDateTime start, LocalDateTime end) {
         super(description, isDone);
         this.start = start;
         this.end = end;
@@ -21,6 +24,8 @@ public class Event extends Task {
     }
 
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + start + " to: " + end + ")";
+        return "[E]" + super.toString() + " (from: "
+                + start.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")) + " to: "
+                + end.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")) + ")";
     }
 }
