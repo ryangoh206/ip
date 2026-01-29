@@ -1,8 +1,14 @@
-import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class Ui {
+    Scanner scanner;
+
+    public Ui() {
+        this.scanner = new Scanner(System.in);
+    }
+
     public void printWelcomeMessage() {
         String logo = "  ____ ____  _   _ __  __ ____  \n" + " / ___|  _ \\| | | |  \\/  |  _ \\ \n"
                 + "| |  _| |_) | | | | |\\/| | |_) |\n" + "| |_| |  _ <| |_| | |  | |  __/ \n"
@@ -20,6 +26,15 @@ public class Ui {
     public void printGoodbyeMessage() {
         System.out.println("Bye. Hope to see you again soon!");
         System.out.println("____________________________________________________________");
+        this.scanner.close();
+    }
+
+    public void printNewline() {
+        System.out.println();
+    }
+
+    public String readCommand() {
+        return this.scanner.nextLine().trim();
     }
 
     public void printTasks(TaskList tasks) {
@@ -45,4 +60,21 @@ public class Ui {
     public void printErrorMessage(String message) {
         System.out.println(message);
     }
+
+    public void printMarkTaskMessage(Task task) {
+        System.out.println("Nice! I've marked this task as done:");
+        System.out.println("  " + task);
+    }
+
+    public void printUnmarkTaskMessage(Task task) {
+        System.out.println("OK, I've marked this task as not done yet:");
+        System.out.println("  " + task);
+    }
+
+    public void printDeletedTask(Task task, int totalTasks) {
+        System.out.println("Noted! I've deleted this task:");
+        System.out.println("  " + task);
+        System.out.println("Now you have " + totalTasks + " tasks in the list.");
+    }
+
 }
