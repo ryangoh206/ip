@@ -10,6 +10,7 @@ import grump.command.Command;
 import grump.command.DeadlineCommand;
 import grump.command.DeleteTaskCommand;
 import grump.command.EventCommand;
+import grump.command.FindCommand;
 import grump.command.GoodbyeCommand;
 import grump.command.ListCommand;
 import grump.command.MarkCommand;
@@ -49,6 +50,8 @@ public class Parser {
             return new DeadlineCommand(userInput);
         case "EVENT":
             return new EventCommand(userInput);
+        case "FIND":
+            return new FindCommand(userInput);
         default:
             throw new InvalidCommandException("I'm sorry, but I don't know what that means.");
         }
