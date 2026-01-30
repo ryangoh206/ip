@@ -20,7 +20,7 @@ public class DeleteTaskCommand extends Command {
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
         try {
-            String parts[] = userInput.split(" ");
+            String[] parts = userInput.split(" ");
             if (parts.length < 2) {
                 throw new MissingArgException("Please provide the task number to delete.");
             }

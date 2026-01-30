@@ -20,9 +20,9 @@ public class UnmarkCommand extends Command {
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
         try {
-            String parts[] = userInput.split(" ");
+            String[] parts = userInput.split(" ", 2);
             if (parts.length < 2) {
-                throw new MissingArgException("Please provide the task number to mark as done.");
+                throw new MissingArgException("Please provide the task number to unmark as done.");
             }
             int taskNum = Integer.parseInt(parts[1]) - 1;
             Task task = tasks.getTask(taskNum);

@@ -20,7 +20,7 @@ public class MarkCommand extends Command {
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
         try {
-            String parts[] = this.userInput.split(" ");
+            String[] parts = this.userInput.split(" ");
             if (parts.length < 2) {
                 throw new MissingArgException("Please provide the task number to mark as done.");
             }

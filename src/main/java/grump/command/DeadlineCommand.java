@@ -21,7 +21,7 @@ public class DeadlineCommand extends Command {
 
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
-        String parts[] = userInput.split(" ", 2);
+        String[] parts = userInput.split(" ", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new MissingArgException("Please provide valid arguments for the deadline task.");
         }
