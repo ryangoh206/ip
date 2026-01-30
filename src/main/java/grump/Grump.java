@@ -21,6 +21,11 @@ public class Grump {
     /** TaskList for storing tasks in memory during runtime */
     private final TaskList tasks;
 
+    /**
+     * Constructs a Grump application with the specified file path for task storage.
+     *
+     * @param filePath The file path where tasks are stored.
+     */
     public Grump(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
