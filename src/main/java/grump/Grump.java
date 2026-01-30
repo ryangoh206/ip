@@ -1,3 +1,5 @@
+package grump;
+
 import grump.command.Command;
 import grump.exception.InvalidArgException;
 import grump.exception.InvalidCommandException;
