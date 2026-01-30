@@ -7,6 +7,9 @@ import grump.task.TaskList;
 import grump.storage.Storage;
 import grump.ui.Ui;
 
+/**
+ * Represents a command to mark a task as done.
+ */
 public class MarkCommand extends Command {
     private final String userInput;
 

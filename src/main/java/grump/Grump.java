@@ -9,9 +9,16 @@ import grump.storage.Storage;
 import grump.task.TaskList;
 import grump.ui.Ui;
 
+/**
+ * Entry point of the Grump chatbot application. Initializes the application and starts the
+ * interaction with the user.
+ */
 public class Grump {
+    /** Ui for printing results to the user and getting input from user */
     private final Ui ui;
+    /** Storage for saving and loading tasks from a specified filepath */
     private final Storage storage;
+    /** TaskList for storing tasks in memory during runtime */
     private final TaskList tasks;
 
     public Grump(String filePath) {
@@ -20,11 +27,14 @@ public class Grump {
         tasks = new TaskList(storage.load());
     }
 
+    /**
+     * Runs the main program loop, reading user commands and executing them until exit command is
+     * given.
+     */
     public void run() {
         ui.printWelcomeMessage();
         boolean isExit = false;
 
-        // Loop, read commands from stdin and add to tasks until 'bye'
         while (!isExit) {
             ui.printLine();
             ui.printNewline();

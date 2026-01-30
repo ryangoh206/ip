@@ -15,6 +15,9 @@ import grump.task.Task;
 import grump.task.TaskList;
 import grump.task.ToDo;
 
+/**
+ * Handles loading and saving of tasks to and from the hard disk.
+ */
 public class Storage {
     private final String filePath;
 
@@ -26,6 +29,11 @@ public class Storage {
         return filePath;
     }
 
+    /**
+     * Loads tasks from the data file on the hard disk.
+     *
+     * @return An ArrayList of Task objects loaded from the data file.
+     */
     public ArrayList<Task> load() {
         File dataFile = new File(this.filePath);
         ArrayList<Task> tasks = new ArrayList<>();
@@ -73,6 +81,11 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the given TaskList to the data file on the hard disk.
+     *
+     * @param tasks The TaskList to be saved.
+     */
     public void save(TaskList tasks) {
         File dataFile = new File(this.filePath);
         dataFile.getParentFile().mkdirs();

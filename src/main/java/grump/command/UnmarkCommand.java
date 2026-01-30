@@ -7,6 +7,9 @@ import grump.task.TaskList;
 import grump.storage.Storage;
 import grump.ui.Ui;
 
+/**
+ * Represents a command to unmark a task as done.
+ */
 public class UnmarkCommand extends Command {
     private final String userInput;
 

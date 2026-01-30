@@ -3,6 +3,9 @@ package grump.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a Deadline type task with a due datetime.
+ */
 public class Deadline extends Task {
 
     protected LocalDateTime by;

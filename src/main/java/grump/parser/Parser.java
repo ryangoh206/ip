@@ -17,7 +17,18 @@ import grump.command.UnmarkCommand;
 import grump.exception.InvalidCommandException;
 import grump.exception.MissingArgException;
 
+/**
+ * Parses user input into Commands for the Grump application.
+ */
 public class Parser {
+
+    /**
+     * Parses the user input and returns the corresponding Command object.
+     *
+     * @param userInput The input string from the user.
+     * @return The Command object corresponding to the user input.
+     * @throws InvalidCommandException If the command is not recognized.
+     */
     public static Command parseCommand(String userInput) {
         String[] parts = userInput.split(" ", 2);
 
@@ -43,6 +54,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a date-time string into a LocalDateTime object.
+     *
+     * @param dateTimeStr The date-time string to parse. E.g. dd-MM-yyyy HH:mm
+     * @return The corresponding LocalDateTime object.
+     * @throws InvalidCommandException If the date-time string is in an invalid format.
+     */
     public static LocalDateTime parseStringToDateTime(String dateTimeStr) {
         try {
             DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy")
@@ -53,7 +71,7 @@ public class Parser {
             LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
             return dateTime;
         } catch (DateTimeParseException e) {
-            throw new MissingArgException(
+            throw new InvalidCommandException(
                     "Please provide date and time in the format dd-MM-yyyy HH:mm or dd-MM-yyyy.");
         }
     }
