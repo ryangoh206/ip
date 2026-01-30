@@ -7,6 +7,9 @@ import grump.task.TaskList;
 import grump.storage.Storage;
 import grump.ui.Ui;
 
+/**
+ * Represents a command to delete a task.
+ */
 public class DeleteTaskCommand extends Command {
     private final String userInput;
 

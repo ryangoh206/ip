@@ -3,6 +3,9 @@ package grump.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents an Event type task with a start and end datetime.
+ */
 public class Event extends Task {
 
     protected LocalDateTime start;
@@ -25,6 +28,7 @@ public class Event extends Task {
         return "E," + description + "," + (isDone ? "1" : "0") + "," + start + "," + end;
     }
 
+    @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: "
                 + start.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")) + " to: "

@@ -4,6 +4,9 @@ import grump.task.TaskList;
 import grump.storage.Storage;
 import grump.ui.Ui;
 
+/**
+ * Represents a command to exit the application.
+ */
 public class GoodbyeCommand extends Command {
 
     @Override

@@ -8,6 +8,9 @@ import grump.parser.Parser;
 import grump.storage.Storage;
 import grump.ui.Ui;
 
+/**
+ * Represents a command to add a deadline task.
+ */
 public class DeadlineCommand extends Command {
     private final String userInput;
 

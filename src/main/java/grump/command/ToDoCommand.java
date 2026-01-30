@@ -6,6 +6,9 @@ import grump.task.ToDo;
 import grump.storage.Storage;
 import grump.ui.Ui;
 
+/*
+ * Represents a command to add a todo task.
+ */
 public class ToDoCommand extends Command {
     private final String userInput;
 
