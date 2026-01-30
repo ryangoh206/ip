@@ -2,9 +2,9 @@ package grump.command;
 
 import grump.exception.InvalidArgException;
 import grump.exception.MissingArgException;
+import grump.storage.Storage;
 import grump.task.Task;
 import grump.task.TaskList;
-import grump.storage.Storage;
 import grump.ui.Ui;
 
 /**

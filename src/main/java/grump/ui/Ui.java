@@ -3,6 +3,7 @@ package grump.ui;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
 import grump.task.Task;
 import grump.task.TaskList;
 
@@ -10,7 +11,7 @@ import grump.task.TaskList;
  * Text UI of the application.
  */
 public class Ui {
-    Scanner scanner;
+    private Scanner scanner;
 
     public Ui() {
         this.scanner = new Scanner(System.in);

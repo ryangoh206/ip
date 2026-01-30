@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
 import grump.task.Deadline;
 import grump.task.Event;
 import grump.task.Task;
@@ -45,7 +46,7 @@ public class Storage {
                 String description = parts[1];
                 boolean isDone = parts[2].equals("1");
 
-                Task task = null;
+                Task task;
                 switch (taskType) {
                 case "T":
                     task = new ToDo(description, isDone);
@@ -58,6 +59,9 @@ public class Storage {
                     LocalDateTime from = LocalDateTime.parse(parts[3]);
                     LocalDateTime to = LocalDateTime.parse(parts[4]);
                     task = new Event(description, isDone, from, to);
+                    break;
+                default:
+                    task = null;
                     break;
                 }
                 if (task != null) {
