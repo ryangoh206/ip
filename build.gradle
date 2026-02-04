@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'checkstyle'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
@@ -30,6 +31,11 @@ test {
 application {
     mainClass.set("grump.Grump")
 }
+
+checkstyle {
+    toolVersion = '11.0.0'
+}
+
 
 shadowJar {
     archiveBaseName = "grump"
