@@ -8,7 +8,7 @@ import grump.task.Task;
 import grump.task.TaskList;
 
 /**
- * Text UI of the application.
+ * Text UI of the application. Not used now, but to support CLI if necessary.
  */
 public class Ui {
     private Scanner scanner;

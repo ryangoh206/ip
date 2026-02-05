@@ -3,9 +3,9 @@ package grump.command;
 import grump.exception.MissingArgException;
 import grump.storage.Storage;
 import grump.task.TaskList;
-import grump.ui.Ui;
+import grump.ui.GuiResponseHandler;
 
-/*
+/**
  * Represents a command to find tasks.
  */
 public class FindCommand extends Command {
@@ -16,13 +16,15 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList tasks, Ui ui, Storage storage) {
+    public CommandResult execute(TaskList tasks, GuiResponseHandler guiResponseHandler,
+            Storage storage) {
         String[] parts = userInput.split(" ", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new MissingArgException("Please provide a description to find tasks.");
         }
-        ui.printTasks(new TaskList(tasks.findTasks(parts[1].trim())));
-        return false;
+        String responseString =
+                guiResponseHandler.returnTasks(new TaskList(tasks.findTasks(parts[1].trim())));
+        return new CommandResult(false, responseString);
     }
 
 }

@@ -2,7 +2,7 @@ package grump.command;
 
 import grump.storage.Storage;
 import grump.task.TaskList;
-import grump.ui.Ui;
+import grump.ui.GuiResponseHandler;
 
 /**
  * Represents a command to exit the application.
@@ -10,9 +10,10 @@ import grump.ui.Ui;
 public class GoodbyeCommand extends Command {
 
     @Override
-    public boolean execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.printGoodbyeMessage();
-        return true; // Indicate that the application should exit
+    public CommandResult execute(TaskList tasks, GuiResponseHandler guiResponseHandler,
+            Storage storage) {
+        String responseString = guiResponseHandler.returnGoodbyeMessage();
+        return new CommandResult(true, responseString); // Indicate that the application should exit
     }
 
 }

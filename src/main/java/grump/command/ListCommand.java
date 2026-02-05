@@ -2,15 +2,16 @@ package grump.command;
 
 import grump.storage.Storage;
 import grump.task.TaskList;
-import grump.ui.Ui;
+import grump.ui.GuiResponseHandler;
 
 /**
  * Represents a command to list all tasks.
  */
 public class ListCommand extends Command {
     @Override
-    public boolean execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.printTasks(tasks);
-        return false; // Indicate that the application should continue running
+    public CommandResult execute(TaskList tasks, GuiResponseHandler guiResponseHandler,
+            Storage storage) {
+        String responseString = guiResponseHandler.returnTasks(tasks);
+        return new CommandResult(false, responseString);
     }
 }

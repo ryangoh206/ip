@@ -7,7 +7,7 @@ import grump.parser.Parser;
 import grump.storage.Storage;
 import grump.task.Deadline;
 import grump.task.TaskList;
-import grump.ui.Ui;
+import grump.ui.GuiResponseHandler;
 
 /**
  * Represents a command to add a deadline task.
@@ -20,7 +20,8 @@ public class DeadlineCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList tasks, Ui ui, Storage storage) {
+    public CommandResult execute(TaskList tasks, GuiResponseHandler guiResponseHandler,
+            Storage storage) {
         String[] parts = userInput.split(" ", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
             throw new MissingArgException("Please provide valid arguments for the deadline task.");
@@ -35,9 +36,10 @@ public class DeadlineCommand extends Command {
         String description = parts[0].trim();
         LocalDateTime by = Parser.parseStringToDateTime(parts[1].trim());
         tasks.addTask(new Deadline(description, by));
-        ui.printAddedTask(tasks.getTask(tasks.size() - 1), tasks.size());
+        String responseString =
+                guiResponseHandler.returnAddedTask(tasks.getTask(tasks.size() - 1), tasks.size());
         storage.save(tasks);
-        return false;
+        return new CommandResult(false, responseString);
     }
 
 }

@@ -5,7 +5,7 @@ import grump.exception.MissingArgException;
 import grump.storage.Storage;
 import grump.task.Task;
 import grump.task.TaskList;
-import grump.ui.Ui;
+import grump.ui.GuiResponseHandler;
 
 /**
  * Represents a command to mark a task as done.
@@ -18,7 +18,9 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList tasks, Ui ui, Storage storage) {
+    public CommandResult execute(TaskList tasks, GuiResponseHandler guiResponseHandler,
+            Storage storage) {
+        String responseString = "";
         try {
             String[] parts = this.userInput.split(" ");
             if (parts.length < 2) {
@@ -27,12 +29,12 @@ public class MarkCommand extends Command {
             int taskNum = Integer.parseInt(parts[1]) - 1;
             Task task = tasks.getTask(taskNum);
             task.markAsDone();
-            ui.printMarkTaskMessage(task);
+            responseString = guiResponseHandler.returnMarkTaskMessage(task);
             storage.save(tasks);
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
             throw new InvalidArgException("The task number you provided is invalid.");
         }
-        return false;
+        return new CommandResult(false, responseString);
     }
 
 }
