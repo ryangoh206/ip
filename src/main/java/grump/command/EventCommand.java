@@ -7,7 +7,7 @@ import grump.parser.Parser;
 import grump.storage.Storage;
 import grump.task.Event;
 import grump.task.TaskList;
-import grump.ui.Ui;
+import grump.ui.GuiResponseHandler;
 
 /**
  * Represents a command to add an event task.
@@ -20,7 +20,8 @@ public class EventCommand extends Command {
     }
 
     @Override
-    public boolean execute(TaskList tasks, Ui ui, Storage storage) {
+    public CommandResult execute(TaskList tasks, GuiResponseHandler guiResponseHandler,
+            Storage storage) {
 
         String[] parts = userInput.split(" ", 2);
         if (parts.length < 2 || parts[1].trim().isEmpty()) {
@@ -44,9 +45,10 @@ public class EventCommand extends Command {
         LocalDateTime end = Parser.parseStringToDateTime(parts[1].trim());
 
         tasks.addTask(new Event(description, start, end));
-        ui.printAddedTask(tasks.getTask(tasks.size() - 1), tasks.size());
+        String responseString =
+                guiResponseHandler.returnAddedTask(tasks.getTask(tasks.size() - 1), tasks.size());
         storage.save(tasks);
-        return false;
+        return new CommandResult(false, responseString);
     }
 
 }

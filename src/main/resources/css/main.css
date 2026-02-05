@@ -1,0 +1,49 @@
+.root {
+    main-color: rgb(238, 238, 231);       /* Create a looked-up color called "main-color" within root. */
+    -fx-background-color: main-color;
+    -fx-background-image: url("../images/wallpaper.jpeg"); /* Set image */
+    -fx-background-size: cover;
+}
+
+.text-field {
+
+    -fx-background-color: #ededed;
+    -fx-font: 20px "Arial";
+}
+
+.button {
+    -fx-background-color: rgb(185, 185, 185);
+    -fx-font: italic bold 16px "Arial";
+}
+
+.button:hover {
+    -fx-background-color:rgb(96, 96, 96);
+    -fx-font-size: 18px;
+}
+
+.button:pressed {
+    -fx-background-color:rgb(214, 214, 214);
+    -fx-font-size: 20px;
+}
+
+.scroll-pane,
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-font-size: 10px;  /* Change width of scroll bar. */
+    -fx-background-color: main-color;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #b1ccd3;
+    -fx-background-radius: 1em;
+}
+
+/* Hides the increment and decrement buttons. */
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+}
