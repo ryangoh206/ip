@@ -4,9 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import grump.task.Task;
-import grump.task.TaskList;
-
 /**
  * Text UI of the application. Not used now, but to support CLI if necessary.
  */
@@ -60,37 +57,19 @@ public class Ui {
     }
 
     /**
-     * Prints the list of tasks formatted.
-     *
-     * @param tasks The TaskList containing the tasks to be printed.
-     */
-    public void printTasks(TaskList tasks) {
-        if (tasks.size() == 0) {
-            System.out.println("You have no tasks in your list.");
-        } else {
-            System.out.println("Here are the tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + ". " + tasks.getTask(i).toString());
-            }
-        }
-    }
-
-    /**
-     * Prints the message for when a task is added.
-     *
-     * @param task The task that was added.
-     * @param totalTasks The total number of tasks after addition.
-     */
-    public void printAddedTask(Task task, int totalTasks) {
-        System.out.println("Got it. I've added this task:\n  " + task);
-        System.out.println("Now you have " + totalTasks + " tasks in the list.");
-    }
-
-    /**
      * Prints a horizontal line for better readability.
      */
     public void printLine() {
         System.out.println("____________________________________________________________");
+    }
+
+    /**
+     * Prints the message provided.
+     *
+     * @param message The message to be printed.
+     */
+    public void printMessage(String message) {
+        System.out.println(message);
     }
 
     /**
@@ -100,38 +79,6 @@ public class Ui {
      */
     public void printErrorMessage(String message) {
         System.out.println(message);
-    }
-
-    /**
-     * Prints the message for when a task is marked as done.
-     *
-     * @param task The task that was marked.
-     */
-    public void printMarkTaskMessage(Task task) {
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + task);
-    }
-
-    /**
-     * Prints the message for when a task is unmarked as not done.
-     *
-     * @param task The task that was unmarked.
-     */
-    public void printUnmarkTaskMessage(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println("  " + task);
-    }
-
-    /**
-     * Prints the message for when a task is deleted.
-     *
-     * @param task The task that was deleted.
-     * @param totalTasks The total number of tasks after deletion.
-     */
-    public void printDeletedTask(Task task, int totalTasks) {
-        System.out.println("Noted! I've deleted this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + totalTasks + " tasks in the list.");
     }
 
 }

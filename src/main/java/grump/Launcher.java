@@ -7,6 +7,10 @@ import javafx.application.Application;
  */
 public class Launcher {
     public static void main(String[] args) {
-        Application.launch(Main.class, args);
+        if (args.length > 0 && args[0].equalsIgnoreCase("cli")) {
+            new Grump("data/tasks.csv").run();
+        } else {
+            Application.launch(Main.class, args);
+        }
     }
 }
