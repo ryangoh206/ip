@@ -34,6 +34,7 @@ public class MainWindow extends AnchorPane {
 
     /** Injects the Grump instance */
     public void setGrump(Grump g) {
+        assert g != null : "Grump instance cannot be null";
         grump = g;
     }
 
@@ -44,7 +45,9 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
+        assert input != null : "User input should not be null";
         String response = grump.getResponseForGui(input);
+        assert response != null : "Response from Grump should not be null";
         dialogContainer.getChildren().addAll(DialogBox.getUserDialog(input, userImage),
                 DialogBox.getGrumpDialog(response, grumpImage));
         userInput.clear();
