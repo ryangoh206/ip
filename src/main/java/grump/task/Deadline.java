@@ -10,11 +10,24 @@ public class Deadline extends Task {
 
     protected LocalDateTime by;
 
+    /**
+     * Constructs a Deadline task.
+     *
+     * @param description Description of the deadline.
+     * @param by Due datetime of the deadline.
+     */
     public Deadline(String description, LocalDateTime by) {
         super(description);
         this.by = by;
     }
 
+    /**
+     * Constructs a Deadline task with specified completion status.
+     *
+     * @param description Description of the deadline.
+     * @param isDone Whether the deadline is done.
+     * @param by Due datetime of the deadline.
+     */
     public Deadline(String description, boolean isDone, LocalDateTime by) {
         super(description, isDone);
         this.by = by;

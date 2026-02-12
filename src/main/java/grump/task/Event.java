@@ -11,12 +11,27 @@ public class Event extends Task {
     protected LocalDateTime start;
     protected LocalDateTime end;
 
+    /**
+     * Constructs an Event task.
+     *
+     * @param description Description of the event.
+     * @param start Start datetime of the event.
+     * @param end End datetime of the event.
+     */
     public Event(String description, LocalDateTime start, LocalDateTime end) {
         super(description);
         this.start = start;
         this.end = end;
     }
 
+    /**
+     * Constructs an Event task with specified completion status.
+     *
+     * @param description Description of the event.
+     * @param isDone Whether the event is done.
+     * @param start Start datetime of the event.
+     * @param end End datetime of the event.
+     */
     public Event(String description, boolean isDone, LocalDateTime start, LocalDateTime end) {
         super(description, isDone);
         this.start = start;
