@@ -81,11 +81,15 @@ public class TaskList {
         ArrayList<Task> foundTasks = new ArrayList<>();
         for (Task task : this.tasks) {
             assert task != null : "Tasks should not be null";
-            if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
+            boolean containsKeyword =
+                    task.description.toLowerCase().contains(keyword.toLowerCase());
+
+            if (containsKeyword) {
                 foundTasks.add(task);
             }
         }
 
         return foundTasks;
     }
+
 }
