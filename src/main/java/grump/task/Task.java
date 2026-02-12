@@ -1,10 +1,13 @@
 package grump.task;
 
+import java.util.ArrayList;
+
 /**
  * Represents an abstract task with a description and completion status.
  */
 public abstract class Task {
     protected String description;
+    protected ArrayList<String> tags;
     protected boolean isDone;
 
     /**
@@ -14,6 +17,7 @@ public abstract class Task {
      */
     public Task(String description) {
         this.description = description;
+        this.tags = new ArrayList<>();
         this.isDone = false;
     }
 
@@ -25,6 +29,20 @@ public abstract class Task {
      */
     public Task(String description, boolean isDone) {
         this.description = description;
+        this.tags = new ArrayList<>();
+        this.isDone = isDone;
+    }
+
+    /**
+     * Constructs a Task with the given description, tags, and completion status.
+     *
+     * @param description Description of the task.
+     * @param tags List of tags associated with the task.
+     * @param isDone Whether the task is done.
+     */
+    public Task(String description, ArrayList<String> tags, boolean isDone) {
+        this.description = description;
+        this.tags = tags;
         this.isDone = isDone;
     }
 
@@ -72,12 +90,32 @@ public abstract class Task {
     }
 
     /**
+     * Adds a tag to the task.
+     *
+     * @param tag The tag to be added.
+     */
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
+
+    /**
+     * Removes a tag from the task.
+     *
+     * @param tag The tag to be removed.
+     * @return true if the tag was successfully removed, false otherwise.
+     */
+    public boolean removeTag(String tag) {
+        return this.tags.remove(tag);
+    }
+
+    /**
      * Returns the string representation of the task.
      *
-     * @return A string in the format "[statusIcon] description".
+     * @return A string in the format "[statusIcon] description (Tags: [tag1, tag2, ...])".
      */
     public String toString() {
-        return "[" + this.getStatusIcon() + "] " + description;
+        return "[" + this.getStatusIcon() + "] " + this.getDescription() + " (Tags: "
+                + this.tags.toString() + ")";
     }
 
 }

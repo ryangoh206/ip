@@ -2,6 +2,7 @@ package grump.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  * Represents an Event type task with a start and end datetime.
@@ -38,9 +39,26 @@ public class Event extends Task {
         this.end = end;
     }
 
+    /**
+     * Constructs an Event task with specified tags and completion status.
+     *
+     * @param description Description of the event.
+     * @param tags List of tags associated with the event.
+     * @param isDone Whether the event is done.
+     * @param start Start datetime of the event.
+     * @param end End datetime of the event.
+     */
+    public Event(String description, ArrayList<String> tags, boolean isDone, LocalDateTime start,
+            LocalDateTime end) {
+        super(description, tags, isDone);
+        this.start = start;
+        this.end = end;
+    }
+
     @Override
     public String toCsvString() {
-        return "E," + description + "," + (isDone ? "1" : "0") + "," + start + "," + end;
+        return "E," + description + "," + (isDone ? "1" : "0") + "," + start + "," + end + ","
+                + tags.toString();
     }
 
     @Override

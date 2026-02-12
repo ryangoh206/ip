@@ -14,8 +14,10 @@ import grump.command.FindCommand;
 import grump.command.GoodbyeCommand;
 import grump.command.ListCommand;
 import grump.command.MarkCommand;
+import grump.command.TagCommand;
 import grump.command.ToDoCommand;
 import grump.command.UnmarkCommand;
+import grump.command.UntagCommand;
 import grump.exception.InvalidCommandException;
 
 /**
@@ -53,6 +55,10 @@ public class Parser {
             return new EventCommand(userInput);
         case "FIND":
             return new FindCommand(userInput);
+        case "TAG":
+            return new TagCommand(userInput);
+        case "UNTAG":
+            return new UntagCommand(userInput);
         default:
             throw new InvalidCommandException("I'm sorry, but I don't know what that means.");
         }
