@@ -32,6 +32,7 @@ public class Parser {
      */
     public static Command parseCommand(String userInput) {
         String[] parts = userInput.split(" ", 2);
+        assert parts.length > 0 : "Split should yield at least one part";
 
         switch (parts[0].toUpperCase()) {
         case "BYE":
@@ -74,6 +75,7 @@ public class Parser {
                     .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0).toFormatter();
 
             LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
+            assert dateTime != null : "Parsed LocalDateTime should not be null";
             return dateTime;
         } catch (DateTimeParseException e) {
             throw new InvalidCommandException(

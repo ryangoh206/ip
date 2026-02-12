@@ -12,7 +12,13 @@ public class TaskList {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Constructs a TaskList with the given list of tasks.
+     *
+     * @param tasks ArrayList of tasks to initialize the TaskList.
+     */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "Tasks list cannot be null";
         this.tasks = tasks;
     }
 
@@ -41,6 +47,7 @@ public class TaskList {
      * @return Task at the specified index.
      */
     public Task getTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Task index is out of bounds";
         return this.tasks.get(index);
     }
 
@@ -50,6 +57,7 @@ public class TaskList {
      * @param index Index of the task to remove.
      */
     public void removeTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Task index is out of bounds";
         this.tasks.remove(index);
     }
 
@@ -69,8 +77,10 @@ public class TaskList {
      * @return ArrayList of tasks that match the keyword.
      */
     public ArrayList<Task> findTasks(String keyword) {
+        assert keyword != null : "Keyword cannot be null";
         ArrayList<Task> foundTasks = new ArrayList<>();
         for (Task task : this.tasks) {
+            assert task != null : "Tasks should not be null";
             boolean containsKeyword =
                     task.description.toLowerCase().contains(keyword.toLowerCase());
 
@@ -78,6 +88,7 @@ public class TaskList {
                 foundTasks.add(task);
             }
         }
+
         return foundTasks;
     }
 

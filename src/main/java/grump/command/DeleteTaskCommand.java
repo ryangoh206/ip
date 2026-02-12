@@ -25,6 +25,9 @@ public class DeleteTaskCommand extends Command {
     @Override
     public CommandResult execute(TaskList tasks, GuiResponseHandler guiResponseHandler,
             Storage storage) {
+        assert tasks != null : "TaskList cannot be null";
+        assert guiResponseHandler != null : "GuiResponseHandler cannot be null";
+        assert storage != null : "Storage cannot be null";
         try {
             String[] parts = userInput.split(" ");
             if (parts.length < 2) {
@@ -32,8 +35,13 @@ public class DeleteTaskCommand extends Command {
             }
             int taskNum = Integer.parseInt(parts[1]) - 1;
             Task oldTask = tasks.getTask(taskNum);
+            int initialSize = tasks.size();
             tasks.removeTask(taskNum);
+            assert tasks.size() == initialSize
+                    - 1 : "Task list size should decrease by 1 after deletion";
+
             String responseString = guiResponseHandler.returnDeletedTask(oldTask, tasks.size());
+
             storage.save(tasks);
             return new CommandResult(false, responseString);
         } catch (IndexOutOfBoundsException | NumberFormatException e) {

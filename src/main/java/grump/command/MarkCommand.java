@@ -20,6 +20,9 @@ public class MarkCommand extends Command {
     @Override
     public CommandResult execute(TaskList tasks, GuiResponseHandler guiResponseHandler,
             Storage storage) {
+        assert tasks != null : "TaskList cannot be null";
+        assert guiResponseHandler != null : "GuiResponseHandler cannot be null";
+        assert storage != null : "Storage cannot be null";
         String responseString = "";
         try {
             String[] parts = this.userInput.split(" ");
@@ -29,6 +32,7 @@ public class MarkCommand extends Command {
             int taskNum = Integer.parseInt(parts[1]) - 1;
             Task task = tasks.getTask(taskNum);
             task.markAsDone();
+            assert task.isDone() : "Task should be marked as done";
             responseString = guiResponseHandler.returnMarkTaskMessage(task);
             storage.save(tasks);
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
