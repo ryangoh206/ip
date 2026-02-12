@@ -31,6 +31,15 @@ public abstract class Task {
     public abstract String toCsvString();
 
     /**
+     * Returns the description of the task.
+     *
+     * @return Description of the task.
+     */
+    public String getDescription() {
+        return this.description;
+    }
+
+    /**
      * Returns the status icon of the task.
      *
      * @return "X" if the task is done, otherwise a space " ".

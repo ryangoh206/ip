@@ -1,6 +1,7 @@
 package grump.task;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Represents a list of tasks.
@@ -78,18 +79,11 @@ public class TaskList {
      */
     public ArrayList<Task> findTasks(String keyword) {
         assert keyword != null : "Keyword cannot be null";
-        ArrayList<Task> foundTasks = new ArrayList<>();
-        for (Task task : this.tasks) {
-            assert task != null : "Tasks should not be null";
-            boolean containsKeyword =
-                    task.description.toLowerCase().contains(keyword.toLowerCase());
+        String lowerCaseKeyword = keyword.toLowerCase();
 
-            if (containsKeyword) {
-                foundTasks.add(task);
-            }
-        }
-
-        return foundTasks;
+        return tasks.stream()
+                .filter(task -> task.getDescription().toLowerCase().contains(lowerCaseKeyword))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
 }
