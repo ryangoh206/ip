@@ -22,7 +22,13 @@ import grump.task.ToDo;
 public class Storage {
     private final String filePath;
 
+    /**
+     * Constructs a Storage object with the specified file path.
+     *
+     * @param filePath The file path where tasks are stored.
+     */
     public Storage(String filePath) {
+        assert filePath != null && !filePath.trim().isEmpty() : "File path cannot be null or empty";
         this.filePath = filePath;
     }
 
@@ -62,7 +68,7 @@ public class Storage {
                     break;
                 default:
                     task = null;
-                    break;
+                    throw new IOException("Corrupted task type in storage: " + taskType);
                 }
                 if (task != null) {
                     tasks.add(task);
@@ -91,10 +97,12 @@ public class Storage {
      * @param tasks The TaskList to be saved.
      */
     public void save(TaskList tasks) {
+        assert tasks != null : "TaskList to save should not be null";
         File dataFile = new File(this.filePath);
         dataFile.getParentFile().mkdirs();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(dataFile))) {
             for (Task task : tasks.getTasks()) {
+                assert task != null : "Task in TaskList should not be null";
                 bw.write(task.toCsvString());
                 bw.newLine();
             }

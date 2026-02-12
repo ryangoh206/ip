@@ -63,6 +63,15 @@ public abstract class Task {
     }
 
     /**
+     * Returns whether the task is done.
+     *
+     * @return true if the task is done, false otherwise.
+     */
+    public boolean isDone() {
+        return this.isDone;
+    }
+
+    /**
      * Returns the string representation of the task.
      *
      * @return A string in the format "[statusIcon] description".
