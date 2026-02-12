@@ -43,26 +43,19 @@ public class Grump {
      */
     public void run() {
         ui.printWelcomeMessage();
-        CommandResult commandResult = new CommandResult(false, null);
+        CommandResult commandResult;
 
-        while (!commandResult.getIsExit()) {
-            ui.printLine();
-            ui.printNewline();
-            String userInput = ui.readCommand();
-            ui.printLine();
-
-            try {
-                Command command = Parser.parseCommand(userInput);
-                commandResult = command.execute(tasks, guiResponseHandler, storage);
-                ui.printMessage(commandResult.getResponseString());
-            } catch (MissingArgException | InvalidCommandException | InvalidArgException e) {
-                ui.printErrorMessage(e.getMessage());
-                continue;
-            }
-        }
-
+        do {
+            commandResult = processUserInput();
+        } while (!commandResult.getIsExit());
     }
 
+    /**
+     * Gets the response string for a given user input to be displayed in the GUI.
+     *
+     * @param userInput The input command from the user.
+     * @return The response string to be displayed in the GUI.
+     */
     public String getResponseForGui(String userInput) {
         boolean isExit = false;
         CommandResult commandResult = new CommandResult(isExit, "");
@@ -72,6 +65,28 @@ public class Grump {
             return commandResult.getResponseString();
         } catch (MissingArgException | InvalidCommandException | InvalidArgException e) {
             return guiResponseHandler.returnErrorMessage(e.getMessage());
+        }
+    }
+
+    /**
+     * Processes user input, executes the corresponding command, and returns the result.
+     *
+     * @return The result of executing the user's command.
+     */
+    private CommandResult processUserInput() {
+        ui.printLine();
+        ui.printNewline();
+        String userInput = ui.readCommand();
+        ui.printLine();
+
+        try {
+            Command command = Parser.parseCommand(userInput);
+            CommandResult commandResult = command.execute(tasks, guiResponseHandler, storage);
+            ui.printMessage(commandResult.getResponseString());
+            return commandResult;
+        } catch (MissingArgException | InvalidCommandException | InvalidArgException e) {
+            ui.printErrorMessage(e.getMessage());
+            return new CommandResult(false, "");
         }
     }
 

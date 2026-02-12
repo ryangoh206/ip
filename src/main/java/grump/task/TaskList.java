@@ -71,10 +71,14 @@ public class TaskList {
     public ArrayList<Task> findTasks(String keyword) {
         ArrayList<Task> foundTasks = new ArrayList<>();
         for (Task task : this.tasks) {
-            if (task.description.toLowerCase().contains(keyword.toLowerCase())) {
+            boolean containsKeyword =
+                    task.description.toLowerCase().contains(keyword.toLowerCase());
+
+            if (containsKeyword) {
                 foundTasks.add(task);
             }
         }
         return foundTasks;
     }
+
 }
