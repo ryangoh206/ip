@@ -44,7 +44,7 @@ public class Grump {
     public void run() {
         ui.printWelcomeMessage();
         CommandResult commandResult = new CommandResult(false, null);
-
+        assert commandResult != null : "CommandResult returned should not be null";
         while (!commandResult.getIsExit()) {
             ui.printLine();
             ui.printNewline();
@@ -53,14 +53,16 @@ public class Grump {
 
             try {
                 Command command = Parser.parseCommand(userInput);
+                assert command != null : "Parsed Command should not be null";
                 commandResult = command.execute(tasks, guiResponseHandler, storage);
+                assert commandResult != null : "CommandResult returned should not be null";
                 ui.printMessage(commandResult.getResponseString());
             } catch (MissingArgException | InvalidCommandException | InvalidArgException e) {
                 ui.printErrorMessage(e.getMessage());
                 continue;
             }
         }
-
+        assert commandResult.getIsExit() : "CommandResult should indicate exit after loop";
     }
 
     public String getResponseForGui(String userInput) {
@@ -68,7 +70,9 @@ public class Grump {
         CommandResult commandResult = new CommandResult(isExit, "");
         try {
             Command command = Parser.parseCommand(userInput);
+            assert command != null : "Parsed Command should not be null";
             commandResult = command.execute(tasks, guiResponseHandler, storage);
+            assert commandResult != null : "CommandResult returned should not be null";
             return commandResult.getResponseString();
         } catch (MissingArgException | InvalidCommandException | InvalidArgException e) {
             return guiResponseHandler.returnErrorMessage(e.getMessage());
