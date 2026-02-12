@@ -61,12 +61,14 @@ public class Parser {
     /**
      * Parses a date-time string into a LocalDateTime object.
      *
-     * @param dateTimeStr The date-time string to parse. E.g. dd-MM-yyyy HH:mm
+     * @param dateTimeStr The date-time string to parse. E.g. dd-MM-yyyy HH:mm or dd-MM-yyyy
      * @return The corresponding LocalDateTime object.
      * @throws InvalidCommandException If the date-time string is in an invalid format.
      */
     public static LocalDateTime parseStringToDateTime(String dateTimeStr) {
         try {
+            // Create a DateTimeFormatter that can parse both "dd-MM-yyyy HH:mm" and "dd-MM-yyyy"
+            // It will default the time to 00:00 if only the date is provided.
             DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy")
                     .optionalStart().appendPattern(" HH:mm").optionalEnd()
                     .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)

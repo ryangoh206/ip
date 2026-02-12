@@ -23,10 +23,7 @@ public class GuiResponseHandler {
         if (tasks.size() == 0) {
             return "You have no tasks in your list.";
         } else {
-            String responseString = "Here are the tasks in your list:\n";
-            for (int i = 0; i < tasks.size(); i++) {
-                responseString += (i + 1) + ". " + tasks.getTask(i).toString() + "\n";
-            }
+            String responseString = "Here are the tasks in your list:\n" + concatAllTasks(tasks);
             return responseString;
         }
     }
@@ -38,8 +35,8 @@ public class GuiResponseHandler {
      * @param totalTasks The total number of tasks after addition.
      */
     public String returnAddedTask(Task task, int totalTasks) {
-        return "Got it. I've added this task:\n  " + task
-                + "\n Now you have \" + totalTasks + \" tasks in the list.";
+        return "Got it. I've added this task:\n  " + task + "\n Now you have " + totalTasks
+                + " tasks in the list.";
     }
 
     /**
@@ -78,6 +75,19 @@ public class GuiResponseHandler {
     public String returnDeletedTask(Task task, int totalTasks) {
         return "Noted! I've deleted this task:\n  " + task + "\nNow you have " + totalTasks
                 + " tasks in the list.";
+    }
+
+    /**
+     * Concatenates all tasks into a single formatted string.
+     *
+     * @param tasks The TaskList containing the tasks to be concatenated.
+     */
+    private String concatAllTasks(TaskList tasks) {
+        String concatString = "";
+        for (int i = 0; i < tasks.size(); i++) {
+            concatString += (i + 1) + ". " + tasks.getTask(i).toString() + "\n";
+        }
+        return concatString;
     }
 
 }
