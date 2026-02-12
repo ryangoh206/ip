@@ -78,6 +78,32 @@ public class GuiResponseHandler {
     }
 
     /**
+     * Returns the message for when a task is tagged.
+     *
+     * @param task The task that was tagged.
+     * @param tag The tag that was added.
+     */
+    public String returnTaggedTaskMessage(Task task, String tag) {
+        return "Great! I've added the tag '" + tag + "' to the task:\n  " + task;
+    }
+
+    /**
+     * Returns the message for when a task is untagged.
+     *
+     * @param task The task that was untagged.
+     * @param tag The tag that was removed.
+     * @param isUntagged Whether the tag was successfully removed.
+     */
+    public String returnUntaggedTaskMessage(Task task, String tag, boolean isUntagged) {
+        if (isUntagged) {
+            return "Great! I've removed the tag '" + tag + "' from the task:\n  " + task;
+        } else {
+            return "Good news! The task does not have the tag '" + tag
+                    + "', so no changes made.\n  " + task;
+        }
+    }
+
+    /**
      * Concatenates all tasks into a single formatted string.
      *
      * @param tasks The TaskList containing the tasks to be concatenated.

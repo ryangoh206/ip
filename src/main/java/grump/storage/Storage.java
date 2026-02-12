@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import grump.task.Deadline;
 import grump.task.Event;
@@ -20,6 +22,7 @@ import grump.task.ToDo;
  */
 public class Storage {
     private static final String DELIMITER = ",";
+    private static final String DELIMITER_TAG = ",\\[";
     private static final int MAX_PARTS = 5;
     private static final String DONE_FLAG = "1";
 
@@ -117,22 +120,33 @@ public class Storage {
      * @throws IOException If the line is in an invalid format.
      */
     private Task parseTask(String line) throws IOException {
+        // Extract tags from the line first as it is at the end and may contain commas
+        String[] tempParts = line.split(DELIMITER_TAG, 2);
+        assert tempParts.length > 1 : "Line should contain '[' to indicate start of tags";
+        line = tempParts[0];
+
         String[] parts = line.split(DELIMITER, MAX_PARTS);
 
         String taskType = parts[POSITION_TASK_TYPE];
         String description = parts[POSITION_DESCRIPTION];
+        String tagsString = tempParts[1].replace("]", "");
+
+        ArrayList<String> tagArrayList = Arrays.stream(tagsString.split(",")).map(String::trim)
+                .filter(tag -> !tag.isEmpty()).collect(Collectors.toCollection(ArrayList::new));
+
+
         boolean isDone = DONE_FLAG.equals(parts[POSITION_DONE_FLAG]);
 
         switch (taskType) {
         case TODO:
-            return new ToDo(description, isDone);
+            return new ToDo(description, tagArrayList, isDone);
         case DEADLINE:
             LocalDateTime by = LocalDateTime.parse(parts[POSITION_BY]);
-            return new Deadline(description, isDone, by);
+            return new Deadline(description, tagArrayList, isDone, by);
         case EVENT:
             LocalDateTime from = LocalDateTime.parse(parts[POSITION_FROM]);
             LocalDateTime to = LocalDateTime.parse(parts[POSITION_TO]);
-            return new Event(description, isDone, from, to);
+            return new Event(description, tagArrayList, isDone, from, to);
         default:
             throw new IOException("Invalid task type in data file.");
         }
