@@ -28,7 +28,9 @@ public class Main extends Application {
             fxmlLoader.<MainWindow>getController().setGrump(grump);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Failed to load the application UI: " + e.getMessage());
+            System.err.println("Application will now exit.");
+            System.exit(1);
         }
     }
 }

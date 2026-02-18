@@ -1,11 +1,11 @@
 package grump.command;
 
-import grump.exception.InvalidArgException;
-import grump.exception.MissingArgException;
 import grump.storage.Storage;
 import grump.task.Task;
 import grump.task.TaskList;
 import grump.ui.GuiResponseHandler;
+import grump.util.CommandValidator;
+import javafx.util.Pair;
 
 /**
  * Represents a command to tag a task.
@@ -24,27 +24,17 @@ public class TagCommand extends Command {
         assert guiResponseHandler != null : "GuiResponseHandler cannot be null";
         assert storage != null : "Storage cannot be null";
 
-        try {
-            String[] parts = this.userInput.split(" ", 2);
-            if (parts.length < 2) {
-                throw new MissingArgException("Please provide the task number to tag.");
-            }
-            parts = parts[1].split(" ", 2);
-            if (parts.length < 2 || parts[1].trim().isEmpty()) {
-                throw new MissingArgException("Please provide the tag name for the task.");
-            }
+        Pair<Integer, String> taskIndexAndTag =
+                CommandValidator.validateTaskIndexAndTag(userInput, tasks.size());
+        int taskIndex = taskIndexAndTag.getKey();
+        String tag = taskIndexAndTag.getValue();
 
-            int taskNum = Integer.parseInt(parts[0]) - 1;
-            Task task = tasks.getTask(taskNum);
-            String tag = parts[1].trim();
-            task.addTag(tag);
+        Task task = tasks.getTask(taskIndex);
+        task.addTag(tag);
 
-            String responseString = guiResponseHandler.returnTaggedTaskMessage(task, tag);
-            storage.save(tasks);
-            return new CommandResult(false, responseString);
-        } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            throw new InvalidArgException("The task number you provided is invalid.");
-        }
+        String responseString = guiResponseHandler.returnTaggedTaskMessage(task, tag);
+        storage.save(tasks);
+        return new CommandResult(false, responseString);
     }
 
 }

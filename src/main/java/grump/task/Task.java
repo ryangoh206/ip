@@ -6,6 +6,9 @@ import java.util.ArrayList;
  * Represents an abstract task with a description and completion status.
  */
 public abstract class Task {
+    protected static final String DONE_ICON = "X";
+    protected static final String NOT_DONE_ICON = " ";
+
     protected String description;
     protected ArrayList<String> tags;
     protected boolean isDone;
@@ -63,7 +66,7 @@ public abstract class Task {
      * @return "X" if the task is done, otherwise a space " ".
      */
     public String getStatusIcon() {
-        return (isDone ? "X" : " "); // mark done task with X
+        return (isDone ? DONE_ICON : NOT_DONE_ICON);
     }
 
     /**
