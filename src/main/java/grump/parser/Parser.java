@@ -18,12 +18,19 @@ import grump.command.TagCommand;
 import grump.command.ToDoCommand;
 import grump.command.UnmarkCommand;
 import grump.command.UntagCommand;
+import grump.enums.CommandType;
 import grump.exception.InvalidCommandException;
 
 /**
  * Parses user input into Commands for the Grump application.
  */
 public class Parser {
+
+    private static final String DATE_TIME_PATTERN = "dd-MM-yyyy";
+    private static final String INVALID_DATE_TIME_MESSAGE =
+            "Please provide date and time in the format dd-MM-yyyy HH:mm or dd-MM-yyyy.";
+    private static final String UNKNOWN_COMMAND_MESSAGE =
+            "I'm sorry, but I don't know what that means.";
 
     /**
      * Parses the user input and returns the corresponding Command object.
@@ -33,34 +40,39 @@ public class Parser {
      * @throws InvalidCommandException If the command is not recognized.
      */
     public static Command parseCommand(String userInput) {
-        String[] parts = userInput.split(" ", 2);
-        assert parts.length > 0 : "Split should yield at least one part";
+        String[] commandParts = userInput.split(" ", 2);
+        assert commandParts.length > 0 : "Split should yield at least one part";
 
-        switch (parts[0].toUpperCase()) {
-        case "BYE":
+        CommandType commandType = CommandType.fromString(commandParts[0]);
+        if (commandType == null) {
+            throw new InvalidCommandException(UNKNOWN_COMMAND_MESSAGE);
+        }
+
+        switch (commandType) {
+        case BYE:
             return new GoodbyeCommand();
-        case "LIST":
+        case LIST:
             return new ListCommand();
-        case "MARK":
+        case MARK:
             return new MarkCommand(userInput);
-        case "UNMARK":
+        case UNMARK:
             return new UnmarkCommand(userInput);
-        case "DELETE":
+        case DELETE:
             return new DeleteTaskCommand(userInput);
-        case "TODO":
+        case TODO:
             return new ToDoCommand(userInput);
-        case "DEADLINE":
+        case DEADLINE:
             return new DeadlineCommand(userInput);
-        case "EVENT":
+        case EVENT:
             return new EventCommand(userInput);
-        case "FIND":
+        case FIND:
             return new FindCommand(userInput);
-        case "TAG":
+        case TAG:
             return new TagCommand(userInput);
-        case "UNTAG":
+        case UNTAG:
             return new UntagCommand(userInput);
         default:
-            throw new InvalidCommandException("I'm sorry, but I don't know what that means.");
+            throw new InvalidCommandException(UNKNOWN_COMMAND_MESSAGE);
         }
     }
 
@@ -75,17 +87,16 @@ public class Parser {
         try {
             // Create a DateTimeFormatter that can parse both "dd-MM-yyyy HH:mm" and "dd-MM-yyyy"
             // It will default the time to 00:00 if only the date is provided.
-            DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("dd-MM-yyyy")
-                    .optionalStart().appendPattern(" HH:mm").optionalEnd()
-                    .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+            DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                    .appendPattern(DATE_TIME_PATTERN).optionalStart().appendPattern(" HH:mm")
+                    .optionalEnd().parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
                     .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0).toFormatter();
 
             LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
             assert dateTime != null : "Parsed LocalDateTime should not be null";
             return dateTime;
         } catch (DateTimeParseException e) {
-            throw new InvalidCommandException(
-                    "Please provide date and time in the format dd-MM-yyyy HH:mm or dd-MM-yyyy.");
+            throw new InvalidCommandException(INVALID_DATE_TIME_MESSAGE);
         }
     }
 

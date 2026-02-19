@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import grump.enums.TaskType;
 import grump.task.Deadline;
 import grump.task.Event;
 import grump.task.Task;
@@ -33,9 +34,17 @@ public class Storage {
     private static final int POSITION_FROM = 3;
     private static final int POSITION_TO = 4;
 
-    private static final String TODO = "T";
-    private static final String DEADLINE = "D";
-    private static final String EVENT = "E";
+    private static final String MESSAGE_DATA_FILE_NOT_FOUND =
+            "Data file not found. Creating a new data file.";
+    private static final String MESSAGE_DATA_FILE_CREATION_ERROR =
+            "An error occurred while creating the data directory and file.";
+    private static final String MESSAGE_LOAD_ERROR =
+            "An error occurred while loading tasks from hard disk. Ensure data file is in correct format.";
+    private static final String MESSAGE_SAVE_ERROR =
+            "An error occurred while saving tasks to hard disk.";
+    private static final String MESSAGE_INVALID_TASK_TYPE = "Invalid task type in data file.";
+    private static final String MESSAGE_INVALID_LINE_FORMAT =
+            "Line should contain '[' to indicate start of tags";
 
     private final String filePath;
 
@@ -70,8 +79,7 @@ public class Storage {
                 tasks.add(task);
             }
         } catch (IOException | ArrayIndexOutOfBoundsException e) {
-            System.out.println(
-                    "An error occurred while loading tasks from hard disk. Ensure data file is in correct format.");
+            System.out.println(MESSAGE_LOAD_ERROR);
         }
         return tasks;
     }
@@ -90,9 +98,8 @@ public class Storage {
                 assert task != null : "Task in TaskList should not be null";
                 writeToBufferedWriter(bw, task);
             }
-            bw.close();
         } catch (IOException e) {
-            System.out.println("An error occurred while saving tasks to hard disk.");
+            System.out.println(MESSAGE_SAVE_ERROR);
         }
     }
 
@@ -102,12 +109,12 @@ public class Storage {
     private void ensureFileExists() {
         File dataFile = new File(this.filePath);
         if (!dataFile.exists()) {
-            System.out.println("Data file not found. Creating a new data file.");
+            System.out.println(MESSAGE_DATA_FILE_NOT_FOUND);
             try {
                 dataFile.getParentFile().mkdirs();
                 dataFile.createNewFile();
             } catch (IOException e) {
-                System.out.println("An error occurred while creating the data directory and file.");
+                System.out.println(MESSAGE_DATA_FILE_CREATION_ERROR);
             }
         }
     }
@@ -122,20 +129,24 @@ public class Storage {
     private Task parseTask(String line) throws IOException {
         // Extract tags from the line first as it is at the end and may contain commas
         String[] tempParts = line.split(DELIMITER_TAG, 2);
-        assert tempParts.length > 1 : "Line should contain '[' to indicate start of tags";
+        assert tempParts.length > 1 : MESSAGE_INVALID_LINE_FORMAT;
         line = tempParts[0];
 
         String[] parts = line.split(DELIMITER, MAX_PARTS);
 
-        String taskType = parts[POSITION_TASK_TYPE];
+        String taskTypeIdentifier = parts[POSITION_TASK_TYPE];
         String description = parts[POSITION_DESCRIPTION];
         String tagsString = tempParts[1].replace("]", "");
 
         ArrayList<String> tagArrayList = Arrays.stream(tagsString.split(",")).map(String::trim)
                 .filter(tag -> !tag.isEmpty()).collect(Collectors.toCollection(ArrayList::new));
 
-
         boolean isDone = DONE_FLAG.equals(parts[POSITION_DONE_FLAG]);
+
+        TaskType taskType = TaskType.fromIdentifier(taskTypeIdentifier);
+        if (taskType == null) {
+            throw new IOException(MESSAGE_INVALID_TASK_TYPE);
+        }
 
         switch (taskType) {
         case TODO:
@@ -148,7 +159,7 @@ public class Storage {
             LocalDateTime to = LocalDateTime.parse(parts[POSITION_TO]);
             return new Event(description, tagArrayList, isDone, from, to);
         default:
-            throw new IOException("Invalid task type in data file.");
+            throw new IOException(MESSAGE_INVALID_TASK_TYPE);
         }
     }
 

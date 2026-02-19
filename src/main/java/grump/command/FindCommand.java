@@ -1,9 +1,9 @@
 package grump.command;
 
-import grump.exception.MissingArgException;
 import grump.storage.Storage;
 import grump.task.TaskList;
 import grump.ui.GuiResponseHandler;
+import grump.util.CommandValidator;
 
 /**
  * Represents a command to find tasks.
@@ -21,12 +21,9 @@ public class FindCommand extends Command {
         assert tasks != null : "TaskList cannot be null";
         assert guiResponseHandler != null : "GuiResponseHandler cannot be null";
         assert storage != null : "Storage cannot be null";
-        String[] parts = userInput.split(" ", 2);
-        if (parts.length < 2 || parts[1].trim().isEmpty()) {
-            throw new MissingArgException("Please provide a description to find tasks.");
-        }
+        String keyword = CommandValidator.validateHasArguments(userInput);
         String responseString =
-                guiResponseHandler.returnTasks(new TaskList(tasks.findTasks(parts[1].trim())));
+                guiResponseHandler.returnTasks(new TaskList(tasks.findTasks(keyword)));
         return new CommandResult(false, responseString);
     }
 

@@ -2,6 +2,8 @@ package grump.task;
 
 import java.util.ArrayList;
 
+import grump.enums.TaskType;
+
 /**
  * Represents a To-Do type task.
  */
@@ -20,7 +22,9 @@ public class ToDo extends Task {
 
     @Override
     public String toCsvString() {
-        return "T," + description + "," + (isDone ? "1" : "0") + "," + tags.toString();
+        String doneFlag = isDone ? CSV_DONE_FLAG : CSV_NOT_DONE_FLAG;
+        return TaskType.TODO.getTypeIdentifier() + CSV_DELIMITER + description + CSV_DELIMITER
+                + doneFlag + CSV_DELIMITER + tags.toString();
     }
 
     @Override

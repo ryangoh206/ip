@@ -33,9 +33,9 @@ public class MainWindow extends AnchorPane {
     }
 
     /** Injects the Grump instance */
-    public void setGrump(Grump g) {
-        assert g != null : "Grump instance cannot be null";
-        grump = g;
+    public void setGrump(Grump grump) {
+        assert grump != null : "Grump instance cannot be null";
+        this.grump = grump;
     }
 
     /**

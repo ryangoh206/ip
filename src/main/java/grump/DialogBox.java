@@ -21,6 +21,13 @@ import javafx.scene.shape.Circle;
  * containing text from the speaker.
  */
 public class DialogBox extends HBox {
+    private static final double CROP_START_X = 225;
+    private static final double CROP_START_Y = 220;
+    private static final double CROP_SIZE = 1650;
+    private static final double CLIP_RADIUS = 50;
+    private static final double CLIP_CENTER_X = 50;
+    private static final double CLIP_CENTER_Y = 50;
+
     @FXML
     private Label dialog;
     @FXML
@@ -40,13 +47,12 @@ public class DialogBox extends HBox {
         dialog.setText(text);
         displayPicture.setImage(img);
 
-        Rectangle2D viewport = new Rectangle2D(225, 220, // crop start
-                1650, 1650 // crop size
-        );
+        Rectangle2D viewport = new Rectangle2D(CROP_START_X, CROP_START_Y,
+                CROP_SIZE, CROP_SIZE);
 
         displayPicture.setViewport(viewport);
 
-        Circle clip = new Circle(50, 50, 50);
+        Circle clip = new Circle(CLIP_CENTER_X, CLIP_CENTER_Y, CLIP_RADIUS);
         displayPicture.setClip(clip);
     }
 
@@ -54,9 +60,9 @@ public class DialogBox extends HBox {
      * Flips the dialog box such that the ImageView is on the left and text on the right.
      */
     private void flip() {
-        ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
-        Collections.reverse(tmp);
-        getChildren().setAll(tmp);
+        ObservableList<Node> reversedChildren = FXCollections.observableArrayList(this.getChildren());
+        Collections.reverse(reversedChildren);
+        getChildren().setAll(reversedChildren);
         setAlignment(Pos.TOP_LEFT);
         dialog.getStyleClass().add("reply-label");
     }
@@ -66,8 +72,8 @@ public class DialogBox extends HBox {
     }
 
     public static DialogBox getGrumpDialog(String text, Image img) {
-        var db = new DialogBox(text, img);
-        db.flip();
-        return db;
+        DialogBox dialogBox = new DialogBox(text, img);
+        dialogBox.flip();
+        return dialogBox;
     }
 }

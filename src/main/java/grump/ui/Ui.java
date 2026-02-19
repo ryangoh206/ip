@@ -8,6 +8,15 @@ import java.util.Scanner;
  * Text UI of the application. Not used now, but to support CLI if necessary.
  */
 public class Ui {
+    private static final String LOGO = "  ____ ____  _   _ __  __ ____  \n"
+            + " / ___|  _ \\| | | |  \\/  |  _ \\ \n" + "| |  _| |_) | | | | |\\/| | |_) |\n"
+            + "| |_| |  _ <| |_| | |  | |  __/ \n" + " \\____|_| \\_\\\\___/|_|  |_|_|    \n";
+    private static final String DATE_FORMAT_PATTERN = "dd MMM yyyy";
+    private static final String MESSAGE_WELCOME = "Hello! I'm Grump! The date today is: ";
+    private static final String MESSAGE_WHAT_CAN_I_DO = ".\nWhat can I do for you?";
+    private static final String LINE_SEPARATOR =
+            "____________________________________________________________";
+
     private Scanner scanner;
 
     public Ui() {
@@ -18,26 +27,14 @@ public class Ui {
      * Prints the welcome message with the current date.
      */
     public void printWelcomeMessage() {
-        String logo = "  ____ ____  _   _ __  __ ____  \n" + " / ___|  _ \\| | | |  \\/  |  _ \\ \n"
-                + "| |  _| |_) | | | | |\\/| | |_) |\n" + "| |_| |  _ <| |_| | |  | |  __/ \n"
-                + " \\____|_| \\_\\\\___/|_|  |_|_|    \n";
         this.printLine();
         System.out.println();
-        System.out.println(logo);
+        System.out.println(LOGO);
         this.printLine();
 
-        System.out.println("Hello! I'm Grump! The date today is: "
-                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
-                + ".\nWhat can I do for you?");
-    }
-
-    /**
-     * Prints the goodbye message and closes the scanner.
-     */
-    public void printGoodbyeMessage() {
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println("____________________________________________________________");
-        this.scanner.close();
+        System.out.println(MESSAGE_WELCOME
+                + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN))
+                + MESSAGE_WHAT_CAN_I_DO);
     }
 
     /**
@@ -60,7 +57,7 @@ public class Ui {
      * Prints a horizontal line for better readability.
      */
     public void printLine() {
-        System.out.println("____________________________________________________________");
+        System.out.println(LINE_SEPARATOR);
     }
 
     /**

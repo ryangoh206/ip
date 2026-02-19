@@ -1,10 +1,10 @@
 package grump.command;
 
-import grump.exception.MissingArgException;
 import grump.storage.Storage;
 import grump.task.TaskList;
 import grump.task.ToDo;
 import grump.ui.GuiResponseHandler;
+import grump.util.CommandValidator;
 
 /**
  * Represents a command to add a todo task.
@@ -22,11 +22,8 @@ public class ToDoCommand extends Command {
         assert tasks != null : "TaskList cannot be null";
         assert guiResponseHandler != null : "GuiResponseHandler cannot be null";
         assert storage != null : "Storage cannot be null";
-        String[] parts = userInput.split(" ", 2);
-        if (parts.length < 2 || parts[1].trim().isEmpty()) {
-            throw new MissingArgException("Please provide a description for the todo task.");
-        }
-        tasks.addTask(new ToDo(parts[1].trim()));
+        String description = CommandValidator.validateHasArguments(userInput);
+        tasks.addTask(new ToDo(description));
         String responseString =
                 guiResponseHandler.returnAddedTask(tasks.getTask(tasks.size() - 1), tasks.size());
         storage.save(tasks);

@@ -2,17 +2,21 @@ package grump.command;
 
 import java.time.LocalDateTime;
 
-import grump.exception.MissingArgException;
+import grump.constants.CommandMessages;
 import grump.parser.Parser;
 import grump.storage.Storage;
 import grump.task.Event;
 import grump.task.TaskList;
 import grump.ui.GuiResponseHandler;
+import grump.util.CommandValidator;
 
 /**
  * Represents a command to add an event task.
  */
 public class EventCommand extends Command {
+    private static final String FROM_SEPARATOR = "/from";
+    private static final String TO_SEPARATOR = "/to";
+
     private final String userInput;
 
     public EventCommand(String userInput) {
@@ -25,26 +29,20 @@ public class EventCommand extends Command {
         assert tasks != null : "TaskList cannot be null";
         assert guiResponseHandler != null : "GuiResponseHandler cannot be null";
         assert storage != null : "Storage cannot be null";
-        String[] parts = userInput.split(" ", 2);
-        if (parts.length < 2 || parts[1].trim().isEmpty()) {
-            throw new MissingArgException("Please provide valid arguments for the event task.");
-        }
-        parts = parts[1].split("/from", 2);
-        if (parts.length < 2 || parts[1].trim().isEmpty()) {
-            throw new MissingArgException(
-                    "Please provide the start and end date/time for the event task.");
-        } else if (parts[0].trim().isEmpty()) {
-            throw new MissingArgException("Please provide a description for the event task.");
-        }
-        String description = parts[0].trim();
-        parts = parts[1].split("/to", 2);
-        if (parts.length < 2 || parts[1].trim().isEmpty()) {
-            throw new MissingArgException("Please provide the end date/time for the event task.");
-        } else if (parts[0].trim().isEmpty()) {
-            throw new MissingArgException("Please provide the start date/time for the event task.");
-        }
-        LocalDateTime start = Parser.parseStringToDateTime(parts[0].trim());
-        LocalDateTime end = Parser.parseStringToDateTime(parts[1].trim());
+
+        String arguments = CommandValidator.validateHasArguments(userInput);
+        String[] eventParts = arguments.split(FROM_SEPARATOR, 2);
+        CommandValidator.validateCommandParts(eventParts, 2, 0,
+                CommandMessages.MISSING_DESCRIPTION);
+        CommandValidator.validateCommandParts(eventParts, 2, 1, CommandMessages.MISSING_FROM_TO);
+
+        String description = eventParts[0].trim();
+        String[] timeParts = eventParts[1].split(TO_SEPARATOR, 2);
+        CommandValidator.validateCommandParts(timeParts, 2, 0, CommandMessages.MISSING_FROM_DATE);
+        CommandValidator.validateCommandParts(timeParts, 2, 1, CommandMessages.MISSING_TO_DATE);
+
+        LocalDateTime start = Parser.parseStringToDateTime(timeParts[0].trim());
+        LocalDateTime end = Parser.parseStringToDateTime(timeParts[1].trim());
 
         tasks.addTask(new Event(description, start, end));
         String responseString =
