@@ -19,18 +19,18 @@ public class ToDoTest {
     @Test
     void testToString() {
         ToDo todo = new ToDo("Read book");
-        assertEquals("[T][ ] Read book", todo.toString());
+        assertEquals("[T][ ] Read book (Tags: [])", todo.toString());
 
         ToDo todoDone = new ToDo("Write report", true);
-        assertEquals("[T][X] Write report", todoDone.toString());
+        assertEquals("[T][X] Write report (Tags: [])", todoDone.toString());
     }
 
     @Test
     void testToCsvString() {
         ToDo todo = new ToDo("Clean room");
-        assertEquals("T,Clean room,0", todo.toCsvString());
+        assertEquals("T,Clean room,0,[]", todo.toCsvString());
 
         ToDo todoDone = new ToDo("Pay bills", true);
-        assertEquals("T,Pay bills,1", todoDone.toCsvString());
+        assertEquals("T,Pay bills,1,[]", todoDone.toCsvString());
     }
 }

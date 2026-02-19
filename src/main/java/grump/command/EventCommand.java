@@ -38,8 +38,8 @@ public class EventCommand extends Command {
 
         String description = eventParts[0].trim();
         String[] timeParts = eventParts[1].split(TO_SEPARATOR, 2);
-        CommandValidator.validateCommandParts(timeParts, 2, 0, CommandMessages.MISSING_TO_DATE);
-        CommandValidator.validateCommandParts(timeParts, 2, 1, CommandMessages.MISSING_FROM_DATE);
+        CommandValidator.validateCommandParts(timeParts, 2, 0, CommandMessages.MISSING_FROM_DATE);
+        CommandValidator.validateCommandParts(timeParts, 2, 1, CommandMessages.MISSING_TO_DATE);
 
         LocalDateTime start = Parser.parseStringToDateTime(timeParts[0].trim());
         LocalDateTime end = Parser.parseStringToDateTime(timeParts[1].trim());

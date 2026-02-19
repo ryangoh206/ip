@@ -9,9 +9,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * A GUI for Duke using FXML.
+ * A GUI for Grump using FXML.
  */
 public class Main extends Application {
+    private static final int MIN_WINDOW_HEIGHT = 220;
+    private static final int MIN_WINDOW_WIDTH = 417;
 
     private Grump grump = new Grump("data/tasks.csv");
 
@@ -20,11 +22,11 @@ public class Main extends Application {
         assert stage != null : "Stage must not be null.";
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
-            AnchorPane ap = fxmlLoader.load();
-            Scene scene = new Scene(ap);
+            AnchorPane rootPane = fxmlLoader.load();
+            Scene scene = new Scene(rootPane);
             stage.setScene(scene);
-            stage.setMinHeight(220);
-            stage.setMinWidth(417);
+            stage.setMinHeight(MIN_WINDOW_HEIGHT);
+            stage.setMinWidth(MIN_WINDOW_WIDTH);
             fxmlLoader.<MainWindow>getController().setGrump(grump);
             stage.show();
         } catch (IOException e) {

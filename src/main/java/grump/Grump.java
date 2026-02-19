@@ -59,12 +59,10 @@ public class Grump {
      * @return The response string to be displayed in the GUI.
      */
     public String getResponseForGui(String userInput) {
-        boolean isExit = false;
-        CommandResult commandResult = new CommandResult(isExit, "");
         try {
             Command command = Parser.parseCommand(userInput);
             assert command != null : "Parsed Command should not be null";
-            commandResult = command.execute(tasks, guiResponseHandler, storage);
+            CommandResult commandResult = command.execute(tasks, guiResponseHandler, storage);
             assert commandResult != null : "CommandResult returned should not be null";
             return commandResult.getResponseString();
         } catch (MissingArgException | InvalidCommandException | InvalidArgException e) {

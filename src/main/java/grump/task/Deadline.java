@@ -1,8 +1,9 @@
 package grump.task;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import grump.enums.TaskType;
 
 /**
  * Represents a Deadline type task with a due datetime.
@@ -49,12 +50,13 @@ public class Deadline extends Task {
 
     @Override
     public String toCsvString() {
-        return "D," + description + "," + (isDone ? "1" : "0") + "," + by + "," + tags.toString();
+        String doneFlag = isDone ? CSV_DONE_FLAG : CSV_NOT_DONE_FLAG;
+        return TaskType.DEADLINE.getTypeIdentifier() + CSV_DELIMITER + description + CSV_DELIMITER
+                + doneFlag + CSV_DELIMITER + by + CSV_DELIMITER + tags.toString();
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: "
-                + by.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")) + ")";
+        return "[D]" + super.toString() + " (by: " + by.format(DISPLAY_DATE_FORMAT) + ")";
     }
 }

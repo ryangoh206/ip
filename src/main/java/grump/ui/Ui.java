@@ -14,7 +14,6 @@ public class Ui {
     private static final String DATE_FORMAT_PATTERN = "dd MMM yyyy";
     private static final String MESSAGE_WELCOME = "Hello! I'm Grump! The date today is: ";
     private static final String MESSAGE_WHAT_CAN_I_DO = ".\nWhat can I do for you?";
-    private static final String MESSAGE_GOODBYE = "Bye. Hope to see you again soon!";
     private static final String LINE_SEPARATOR =
             "____________________________________________________________";
 
@@ -36,15 +35,6 @@ public class Ui {
         System.out.println(MESSAGE_WELCOME
                 + LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN))
                 + MESSAGE_WHAT_CAN_I_DO);
-    }
-
-    /**
-     * Prints the goodbye message and closes the scanner.
-     */
-    public void printGoodbyeMessage() {
-        System.out.println(MESSAGE_GOODBYE);
-        System.out.println(LINE_SEPARATOR);
-        this.scanner.close();
     }
 
     /**

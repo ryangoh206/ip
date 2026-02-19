@@ -98,7 +98,6 @@ public class Storage {
                 assert task != null : "Task in TaskList should not be null";
                 writeToBufferedWriter(bw, task);
             }
-            bw.close();
         } catch (IOException e) {
             System.out.println(MESSAGE_SAVE_ERROR);
         }

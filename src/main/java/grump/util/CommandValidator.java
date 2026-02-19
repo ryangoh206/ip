@@ -47,20 +47,19 @@ public class CommandValidator {
      * @throws InvalidArgException If task number is invalid or out of bounds.
      */
     public static Pair<Integer, String> validateTaskIndexAndTag(String userInput, int maxTasks) {
-
-        String[] commandParts = userInput.split(" ", 2);
+        String arguments = validateHasArguments(userInput);
 
         try {
-            commandParts = commandParts[1].split(" ", 2);
+            String[] argumentParts = arguments.split(" ", 2);
 
-            if (commandParts.length < 2 || commandParts[1].trim().isEmpty()) {
+            if (argumentParts.length < 2 || argumentParts[1].trim().isEmpty()) {
                 throw new MissingArgException(CommandMessages.MISSING_TAG_NAME);
             }
-            int taskNumber = Integer.parseInt(commandParts[0].trim());
+            int taskNumber = Integer.parseInt(argumentParts[0].trim());
             if (taskNumber < 1 || taskNumber > maxTasks) {
                 throw new InvalidArgException(CommandMessages.TASK_NUMBER_OUT_OF_BOUNDS);
             }
-            return new Pair<>(taskNumber - 1, commandParts[1].trim());
+            return new Pair<>(taskNumber - 1, argumentParts[1].trim());
         } catch (NumberFormatException e) {
             throw new InvalidArgException(CommandMessages.INVALID_TASK_NUMBER);
         }

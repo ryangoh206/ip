@@ -7,11 +7,14 @@ import grump.task.TaskList;
  * Handles responses for the GUI application.
  */
 public class GuiResponseHandler {
+    private static final String LINE_SEPARATOR =
+            "____________________________________________________________";
+
     /**
      * Returns the goodbye message.
      */
     public String returnGoodbyeMessage() {
-        return "Bye. Hope to see you again soon!\n____________________________________________________________";
+        return "Bye. Hope to see you again soon!\n" + LINE_SEPARATOR;
     }
 
     /**
@@ -22,10 +25,8 @@ public class GuiResponseHandler {
     public String returnTasks(TaskList tasks) {
         if (tasks.size() == 0) {
             return "You have no tasks in your list.";
-        } else {
-            String responseString = "Here are the tasks in your list:\n" + concatAllTasks(tasks);
-            return responseString;
         }
+        return "Here are the tasks in your list:\n" + concatAllTasks(tasks);
     }
 
     /**
@@ -109,11 +110,11 @@ public class GuiResponseHandler {
      * @param tasks The TaskList containing the tasks to be concatenated.
      */
     private String concatAllTasks(TaskList tasks) {
-        String concatString = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < tasks.size(); i++) {
-            concatString += (i + 1) + ". " + tasks.getTask(i).toString() + "\n";
+            result.append(i + 1).append(". ").append(tasks.getTask(i).toString()).append("\n");
         }
-        return concatString;
+        return result.toString();
     }
 
 }

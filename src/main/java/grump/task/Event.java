@@ -1,8 +1,9 @@
 package grump.task;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import grump.enums.TaskType;
 
 /**
  * Represents an Event type task with a start and end datetime.
@@ -57,14 +58,15 @@ public class Event extends Task {
 
     @Override
     public String toCsvString() {
-        return "E," + description + "," + (isDone ? "1" : "0") + "," + start + "," + end + ","
+        String doneFlag = isDone ? CSV_DONE_FLAG : CSV_NOT_DONE_FLAG;
+        return TaskType.EVENT.getTypeIdentifier() + CSV_DELIMITER + description + CSV_DELIMITER
+                + doneFlag + CSV_DELIMITER + start + CSV_DELIMITER + end + CSV_DELIMITER
                 + tags.toString();
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: "
-                + start.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")) + " to: "
-                + end.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm")) + ")";
+        return "[E]" + super.toString() + " (from: " + start.format(DISPLAY_DATE_FORMAT) + " to: "
+                + end.format(DISPLAY_DATE_FORMAT) + ")";
     }
 }

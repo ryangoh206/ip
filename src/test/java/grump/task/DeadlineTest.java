@@ -44,11 +44,11 @@ class DeadlineTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
 
         Deadline deadline = new Deadline("Submit assignment", by);
-        assertEquals("[D][ ] Submit assignment (by: " + by.format(formatter) + ")",
+        assertEquals("[D][ ] Submit assignment (Tags: []) (by: " + by.format(formatter) + ")",
                 deadline.toString());
 
         Deadline deadlineDone = new Deadline("Finish project", true, by);
-        assertEquals("[D][X] Finish project (by: " + by.format(formatter) + ")",
+        assertEquals("[D][X] Finish project (Tags: []) (by: " + by.format(formatter) + ")",
                 deadlineDone.toString());
     }
 
@@ -56,9 +56,9 @@ class DeadlineTest {
     void testToCsvString() {
         LocalDateTime by = LocalDateTime.of(2026, 2, 5, 18, 30);
         Deadline deadline = new Deadline("Submit assignment", by);
-        assertEquals("D,Submit assignment,0," + by, deadline.toCsvString());
+        assertEquals("D,Submit assignment,0," + by + ",[]" , deadline.toCsvString());
 
         Deadline deadlineDone = new Deadline("Finish project", true, by);
-        assertEquals("D,Finish project,1," + by, deadlineDone.toCsvString());
+        assertEquals("D,Finish project,1," + by + ",[]" , deadlineDone.toCsvString());
     }
 }

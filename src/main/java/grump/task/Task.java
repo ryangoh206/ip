@@ -1,5 +1,6 @@
 package grump.task;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -8,6 +9,11 @@ import java.util.ArrayList;
 public abstract class Task {
     protected static final String DONE_ICON = "X";
     protected static final String NOT_DONE_ICON = " ";
+    protected static final String CSV_DONE_FLAG = "1";
+    protected static final String CSV_NOT_DONE_FLAG = "0";
+    protected static final String CSV_DELIMITER = ",";
+    protected static final DateTimeFormatter DISPLAY_DATE_FORMAT =
+            DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
 
     protected String description;
     protected ArrayList<String> tags;

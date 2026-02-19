@@ -4,8 +4,8 @@ package grump.command;
  * Represents the result of executing a command.
  */
 public class CommandResult {
-    private boolean isExit;
-    private String responseString;
+    private final boolean isExit;
+    private final String responseString;
 
     /**
      * Constructs a CommandResult with the specified isExit value and responseString value.
