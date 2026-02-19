@@ -47,8 +47,7 @@ public class DialogBox extends HBox {
         dialog.setText(text);
         displayPicture.setImage(img);
 
-        Rectangle2D viewport = new Rectangle2D(CROP_START_X, CROP_START_Y,
-                CROP_SIZE, CROP_SIZE);
+        Rectangle2D viewport = new Rectangle2D(CROP_START_X, CROP_START_Y, CROP_SIZE, CROP_SIZE);
 
         displayPicture.setViewport(viewport);
 
@@ -60,17 +59,32 @@ public class DialogBox extends HBox {
      * Flips the dialog box such that the ImageView is on the left and text on the right.
      */
     private void flip() {
-        ObservableList<Node> reversedChildren = FXCollections.observableArrayList(this.getChildren());
+        ObservableList<Node> reversedChildren =
+                FXCollections.observableArrayList(this.getChildren());
         Collections.reverse(reversedChildren);
         getChildren().setAll(reversedChildren);
         setAlignment(Pos.TOP_LEFT);
         dialog.getStyleClass().add("reply-label");
     }
 
+    /**
+     * Creates a dialog box representing the user's message.
+     *
+     * @param text The text content of the message.
+     * @param img The user's display image.
+     * @return A DialogBox styled for the user.
+     */
     public static DialogBox getUserDialog(String text, Image img) {
         return new DialogBox(text, img);
     }
 
+    /**
+     * Creates a dialog box representing Grump's reply, flipped so the image is on the left.
+     *
+     * @param text The text content of the reply.
+     * @param img Grump's display image.
+     * @return A flipped DialogBox styled for Grump.
+     */
     public static DialogBox getGrumpDialog(String text, Image img) {
         DialogBox dialogBox = new DialogBox(text, img);
         dialogBox.flip();

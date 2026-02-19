@@ -27,6 +27,9 @@ public class MainWindow extends AnchorPane {
     private Image grumpImage =
             new Image(this.getClass().getResourceAsStream("/images/DaGrump.png"));
 
+    /**
+     * Initializes the main window by binding the scroll pane to auto-scroll on new content.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());

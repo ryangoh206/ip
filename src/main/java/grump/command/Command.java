@@ -9,6 +9,14 @@ import grump.ui.GuiResponseHandler;
  */
 public abstract class Command {
 
+    /**
+     * Executes this command using the provided task list, GUI response handler, and storage.
+     *
+     * @param tasks The current task list.
+     * @param guiResponseHandler The handler used to generate response strings.
+     * @param storage The storage used to persist task data.
+     * @return A CommandResult containing the response string and exit status.
+     */
     public abstract CommandResult execute(TaskList tasks, GuiResponseHandler guiResponseHandler,
             Storage storage);
 

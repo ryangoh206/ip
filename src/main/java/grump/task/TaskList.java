@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 public class TaskList {
     private final ArrayList<Task> tasks;
 
+    /**
+     * Constructs an empty TaskList.
+     */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }

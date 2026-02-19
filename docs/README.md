@@ -22,7 +22,7 @@ Grump is a **desktop task manager chatbot**, optimized for use via a **Command L
 
 ---
 
-### Notes on Command Format
+## Notes on Command Format
 
 - Words in `UPPER_CASE` are parameters you supply. e.g. in `todo DESCRIPTION`, `DESCRIPTION` is a parameter such as `todo Buy groceries`.
 - Dates must be in `dd-MM-yyyy` or `dd-MM-yyyy HH:mm` format. e.g. `19-02-2026` or `19-02-2026 14:30`.
@@ -156,7 +156,7 @@ delete 1
 ```
 Output:
 ```
-Noted. I've removed this task:
+Noted! I've deleted this task:
   [T][ ] Buy groceries (Tags: [])
 Now you have 2 tasks in the list.
 ```
@@ -178,7 +178,7 @@ find assignment
 ```
 Output:
 ```
-Here are the matching tasks in your list:
+Here are the tasks in your list:
 1. [D][ ] Submit assignment (by: 28 Feb 2026 23:59) (Tags: [])
 ```
 
@@ -196,7 +196,7 @@ tag 1 school
 ```
 Output:
 ```
-Got it. I've tagged this task with #school:
+Great! I've added the tag 'school' to the task:
   [D][ ] Submit assignment (by: 28 Feb 2026 23:59) (Tags: [school])
 ```
 
@@ -214,7 +214,7 @@ untag 1 school
 ```
 Output:
 ```
-Got it. I've removed the tag #school from this task:
+Great! I've removed the tag 'school' from the task:
   [D][ ] Submit assignment (by: 28 Feb 2026 23:59) (Tags: [])
 ```
 
@@ -238,7 +238,7 @@ Tasks are saved automatically to `data/tasks.csv` after every command that chang
 
 ## Command Summary
 
-| Action | Format | Example Output |
+| Action | Format | Example |
 |---|---|---|
 | Add to-do | `todo DESCRIPTION` | `todo Buy groceries` |
 | Add deadline | `deadline DESCRIPTION /by DATE` | `deadline Submit report /by 28-02-2026 23:59` |

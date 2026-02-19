@@ -58,6 +58,11 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Returns the file path used for task storage.
+     *
+     * @return The file path string.
+     */
     public String getFilePath() {
         return filePath;
     }

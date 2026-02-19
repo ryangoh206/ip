@@ -44,7 +44,6 @@ test {
 }
 
 application {
-    // mainClass.set("grump.Grump")
     mainClass.set("grump.Launcher")
 }
 

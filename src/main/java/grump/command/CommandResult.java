@@ -18,10 +18,20 @@ public class CommandResult {
         this.responseString = responseString;
     }
 
+    /**
+     * Returns whether the application should exit after this command.
+     *
+     * @return {@code true} if the application should exit, {@code false} otherwise.
+     */
     public boolean getIsExit() {
         return this.isExit;
     }
 
+    /**
+     * Returns the response string to be displayed.
+     *
+     * @return The response string.
+     */
     public String getResponseString() {
         return this.responseString;
     }

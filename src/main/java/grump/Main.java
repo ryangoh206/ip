@@ -17,6 +17,11 @@ public class Main extends Application {
 
     private Grump grump = new Grump("data/tasks.csv");
 
+    /**
+     * Starts the GUI application by loading the FXML layout and injecting the Grump instance.
+     *
+     * @param stage The primary stage for this JavaFX application.
+     */
     @Override
     public void start(Stage stage) {
         assert stage != null : "Stage must not be null.";

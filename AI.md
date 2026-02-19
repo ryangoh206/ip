@@ -54,6 +54,11 @@ The files changed/added are listed below:
 - src/test/java/grump/task/DeadlineTest.java
 - src/test/java/grump/task/ToDoTest.java
 
+### GitHub Copilot on Vscode
+I also used GitHub Copilot with Claude Sonnet 4.6 to generate a User Guide following the Address Book 3 example given. It executed perfectly and saved much time otherwise used to write the User Guide.
+
+The files changed/added are listed below:
+- docs/README.md
 
 ## Key Observations
 Overall, it was an pleasant and eye-opening experience. The speed and ability to learn the context of the entire project was impressive. However, it still required human oversight and a good grasp of the project to be able to check through the proposed changes and accept them one by one. I would not recommend simply allowing the AI to implement changes by itself as minor errors on the AI's end will produce bugs that would be hard to debug and uncover later on. Ultimately, using AI saved a lot of time in the planning of how to refactor the code but it also required some time to check through the changes before implementing.
