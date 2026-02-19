@@ -7,8 +7,14 @@ import grump.task.TaskList;
  * Handles responses for the GUI application.
  */
 public class GuiResponseHandler {
-    private static final String LINE_SEPARATOR =
-            "____________________________________________________________";
+    /**
+     * Returns the greeting message.
+     *
+     * @return A greeting message string.
+     */
+    public String returnGreeting() {
+        return "Hello, Grump here.\nWhat do you want me to do for you?";
+    }
 
     /**
      * Returns the goodbye message.
@@ -16,7 +22,7 @@ public class GuiResponseHandler {
      * @return A goodbye message string.
      */
     public String returnGoodbyeMessage() {
-        return "Bye. Hope to see you again soon!\n" + LINE_SEPARATOR;
+        return "Bye. Hope to see you again soon!";
     }
 
     /**

@@ -38,6 +38,15 @@ public class Grump {
     }
 
     /**
+     * Returns the greeting message to be displayed in the GUI.
+     *
+     * @return The greeting message string.
+     */
+    public String getGreeting() {
+        return guiResponseHandler.returnGreeting();
+    }
+
+    /**
      * Runs the main program loop, reading user commands and executing them until exit command is
      * given.
      */

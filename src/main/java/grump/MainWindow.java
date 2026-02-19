@@ -39,6 +39,8 @@ public class MainWindow extends AnchorPane {
     public void setGrump(Grump grump) {
         assert grump != null : "Grump instance cannot be null";
         this.grump = grump;
+        dialogContainer.getChildren()
+                .addAll(DialogBox.getGrumpDialog(grump.getGreeting(), grumpImage));
     }
 
     /**
