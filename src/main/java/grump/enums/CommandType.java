@@ -1,21 +1,13 @@
 package grump.enums;
 
 /**
- * Enumeration of supported command types in the Grump application.
- * Each enum value represents a specific user command that can be parsed and executed.
+ * Enumeration of supported command types in the Grump application. Each enum value represents a
+ * specific user command that can be parsed and executed.
  */
 public enum CommandType {
-    BYE("BYE"),
-    LIST("LIST"),
-    MARK("MARK"),
-    UNMARK("UNMARK"),
-    DELETE("DELETE"),
-    TODO("TODO"),
-    DEADLINE("DEADLINE"),
-    EVENT("EVENT"),
-    FIND("FIND"),
-    TAG("TAG"),
-    UNTAG("UNTAG");
+    BYE("BYE"), LIST("LIST"), MARK("MARK"), UNMARK("UNMARK"), DELETE("DELETE"), TODO(
+            "TODO"), DEADLINE("DEADLINE"), EVENT("EVENT"), FIND(
+                    "FIND"), TAG("TAG"), UNTAG("UNTAG"), ERROR("ERROR"), GREETING("GREETING");
 
     private final String commandString;
 

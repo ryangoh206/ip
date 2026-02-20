@@ -27,10 +27,14 @@
     -fx-background-color: yellow;
 }
 
-.marked-label {
+.mark-and-tag-label {
     -fx-background-color: palegreen;
 }
 
 .delete-label {
     -fx-background-color: lightpink;
+}
+
+.error-label {
+    -fx-background-color: orange;
 }

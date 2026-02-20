@@ -1,5 +1,7 @@
 package grump;
 
+import grump.command.CommandResult;
+import grump.enums.CommandType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -39,8 +41,8 @@ public class MainWindow extends AnchorPane {
     public void setGrump(Grump grump) {
         assert grump != null : "Grump instance cannot be null";
         this.grump = grump;
-        dialogContainer.getChildren()
-                .addAll(DialogBox.getGrumpDialog(grump.getGreeting(), grumpImage));
+        dialogContainer.getChildren().addAll(
+                DialogBox.getGrumpDialog(grump.getGreeting(), grumpImage, CommandType.GREETING));
     }
 
     /**
@@ -51,10 +53,11 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         assert input != null : "User input should not be null";
-        String response = grump.getResponseForGui(input);
-        assert response != null : "Response from Grump should not be null";
+        CommandResult commandResult = grump.getResponseForGui(input);
+        assert commandResult != null : "Response from Grump should not be null";
         dialogContainer.getChildren().addAll(DialogBox.getUserDialog(input, userImage),
-                DialogBox.getGrumpDialog(response, grumpImage));
+                DialogBox.getGrumpDialog(commandResult.getResponseString(), grumpImage,
+                        commandResult.getCommandType()));
         userInput.clear();
     }
 }

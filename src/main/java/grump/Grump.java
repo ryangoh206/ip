@@ -65,17 +65,18 @@ public class Grump {
      * Gets the response string for a given user input to be displayed in the GUI.
      *
      * @param userInput The input command from the user.
-     * @return The response string to be displayed in the GUI.
+     * @return The CommandResult containing the response string and command type.
      */
-    public String getResponseForGui(String userInput) {
+    public CommandResult getResponseForGui(String userInput) {
         try {
             Command command = Parser.parseCommand(userInput);
             assert command != null : "Parsed Command should not be null";
             CommandResult commandResult = command.execute(tasks, guiResponseHandler, storage);
             assert commandResult != null : "CommandResult returned should not be null";
-            return commandResult.getResponseString();
+            return commandResult;
         } catch (MissingArgException | InvalidCommandException | InvalidArgException e) {
-            return guiResponseHandler.returnErrorMessage(e.getMessage());
+            return new CommandResult(false, guiResponseHandler.returnErrorMessage(e.getMessage()),
+                    grump.enums.CommandType.ERROR);
         }
     }
 
@@ -99,7 +100,7 @@ public class Grump {
             return commandResult;
         } catch (MissingArgException | InvalidCommandException | InvalidArgException e) {
             ui.printErrorMessage(e.getMessage());
-            return new CommandResult(false, "");
+            return new CommandResult(false, "", grump.enums.CommandType.ERROR);
         }
     }
 

@@ -1,5 +1,6 @@
 package grump.command;
 
+import grump.enums.CommandType;
 import grump.storage.Storage;
 import grump.task.Task;
 import grump.task.TaskList;
@@ -30,7 +31,7 @@ public class MarkCommand extends Command {
 
         String responseString = guiResponseHandler.returnMarkTaskMessage(task);
         storage.save(tasks);
-        return new CommandResult(false, responseString);
+        return new CommandResult(false, responseString, CommandType.MARK);
     }
 
 }

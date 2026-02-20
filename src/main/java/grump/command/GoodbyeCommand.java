@@ -1,5 +1,6 @@
 package grump.command;
 
+import grump.enums.CommandType;
 import grump.storage.Storage;
 import grump.task.TaskList;
 import grump.ui.GuiResponseHandler;
@@ -16,7 +17,7 @@ public class GoodbyeCommand extends Command {
         assert guiResponseHandler != null : "GuiResponseHandler cannot be null";
         assert storage != null : "Storage cannot be null";
         String responseString = guiResponseHandler.returnGoodbyeMessage();
-        return new CommandResult(true, responseString); // Indicate that the application should exit
+        return new CommandResult(true, responseString, CommandType.BYE);
     }
 
 }

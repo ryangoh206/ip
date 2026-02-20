@@ -3,6 +3,7 @@ package grump.command;
 import java.time.LocalDateTime;
 
 import grump.constants.CommandMessages;
+import grump.enums.CommandType;
 import grump.parser.Parser;
 import grump.storage.Storage;
 import grump.task.Deadline;
@@ -41,7 +42,7 @@ public class DeadlineCommand extends Command {
         String responseString =
                 guiResponseHandler.returnAddedTask(tasks.getTask(tasks.size() - 1), tasks.size());
         storage.save(tasks);
-        return new CommandResult(false, responseString);
+        return new CommandResult(false, responseString, CommandType.DEADLINE);
     }
 
 }

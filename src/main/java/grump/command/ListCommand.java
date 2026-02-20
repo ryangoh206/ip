@@ -1,5 +1,6 @@
 package grump.command;
 
+import grump.enums.CommandType;
 import grump.storage.Storage;
 import grump.task.TaskList;
 import grump.ui.GuiResponseHandler;
@@ -15,6 +16,6 @@ public class ListCommand extends Command {
         assert guiResponseHandler != null : "GuiResponseHandler cannot be null";
         assert storage != null : "Storage cannot be null";
         String responseString = guiResponseHandler.returnTasks(tasks);
-        return new CommandResult(false, responseString);
+        return new CommandResult(false, responseString, CommandType.LIST);
     }
 }
