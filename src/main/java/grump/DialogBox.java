@@ -25,9 +25,9 @@ public class DialogBox extends HBox {
     private static final double CROP_START_X = 225;
     private static final double CROP_START_Y = 220;
     private static final double CROP_SIZE = 1650;
-    private static final double CLIP_RADIUS = 50;
-    private static final double CLIP_CENTER_X = 50;
-    private static final double CLIP_CENTER_Y = 50;
+    private static final double CLIP_RADIUS = 35;
+    private static final double CLIP_CENTER_X = 36;
+    private static final double CLIP_CENTER_Y = 35;
 
     @FXML
     private Label dialog;
