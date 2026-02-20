@@ -1,5 +1,6 @@
 package grump.command;
 
+import grump.enums.CommandType;
 import grump.storage.Storage;
 import grump.task.TaskList;
 import grump.ui.GuiResponseHandler;
@@ -24,7 +25,7 @@ public class FindCommand extends Command {
         String keyword = CommandValidator.validateHasArguments(userInput);
         String responseString =
                 guiResponseHandler.returnTasks(new TaskList(tasks.findTasks(keyword)));
-        return new CommandResult(false, responseString);
+        return new CommandResult(false, responseString, CommandType.FIND);
     }
 
 }

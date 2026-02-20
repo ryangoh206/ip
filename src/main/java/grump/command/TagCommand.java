@@ -1,5 +1,6 @@
 package grump.command;
 
+import grump.enums.CommandType;
 import grump.storage.Storage;
 import grump.task.Task;
 import grump.task.TaskList;
@@ -34,7 +35,7 @@ public class TagCommand extends Command {
 
         String responseString = guiResponseHandler.returnTaggedTaskMessage(task, tag);
         storage.save(tasks);
-        return new CommandResult(false, responseString);
+        return new CommandResult(false, responseString, CommandType.TAG);
     }
 
 }

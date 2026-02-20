@@ -1,5 +1,6 @@
 package grump.command;
 
+import grump.enums.CommandType;
 import grump.storage.Storage;
 import grump.task.TaskList;
 import grump.task.ToDo;
@@ -27,7 +28,7 @@ public class ToDoCommand extends Command {
         String responseString =
                 guiResponseHandler.returnAddedTask(tasks.getTask(tasks.size() - 1), tasks.size());
         storage.save(tasks);
-        return new CommandResult(false, responseString);
+        return new CommandResult(false, responseString, CommandType.TODO);
     }
 
 }

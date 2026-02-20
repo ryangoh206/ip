@@ -3,6 +3,7 @@ package grump;
 import java.io.IOException;
 import java.util.Collections;
 
+import grump.enums.CommandType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,9 +25,9 @@ public class DialogBox extends HBox {
     private static final double CROP_START_X = 225;
     private static final double CROP_START_Y = 220;
     private static final double CROP_SIZE = 1650;
-    private static final double CLIP_RADIUS = 50;
-    private static final double CLIP_CENTER_X = 50;
-    private static final double CLIP_CENTER_Y = 50;
+    private static final double CLIP_RADIUS = 35;
+    private static final double CLIP_CENTER_X = 36;
+    private static final double CLIP_CENTER_Y = 35;
 
     @FXML
     private Label dialog;
@@ -78,6 +79,31 @@ public class DialogBox extends HBox {
         return new DialogBox(text, img);
     }
 
+    private void changeDialogStyle(CommandType commandType) {
+        switch (commandType) {
+        case MARK:
+        case UNMARK:
+        case TAG:
+        case UNTAG:
+        case FIND:
+            dialog.getStyleClass().add("mark-and-tag-label");
+            break;
+        case TODO:
+        case DEADLINE:
+        case EVENT:
+            dialog.getStyleClass().add("add-label");
+            break;
+        case DELETE:
+            dialog.getStyleClass().add("delete-label");
+            break;
+        case ERROR:
+            dialog.getStyleClass().add("error-label");
+            break;
+        default:
+            // No additional styling for other command types
+        }
+    }
+
     /**
      * Creates a dialog box representing Grump's reply, flipped so the image is on the left.
      *
@@ -85,9 +111,10 @@ public class DialogBox extends HBox {
      * @param img Grump's display image.
      * @return A flipped DialogBox styled for Grump.
      */
-    public static DialogBox getGrumpDialog(String text, Image img) {
+    public static DialogBox getGrumpDialog(String text, Image img, CommandType commandType) {
         DialogBox dialogBox = new DialogBox(text, img);
         dialogBox.flip();
+        dialogBox.changeDialogStyle(commandType);
         return dialogBox;
     }
 }

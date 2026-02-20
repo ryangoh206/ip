@@ -1,5 +1,6 @@
 package grump.command;
 
+import grump.enums.CommandType;
 import grump.storage.Storage;
 import grump.task.Task;
 import grump.task.TaskList;
@@ -32,6 +33,6 @@ public class DeleteTaskCommand extends Command {
 
         String responseString = guiResponseHandler.returnDeletedTask(oldTask, tasks.size());
         storage.save(tasks);
-        return new CommandResult(false, responseString);
+        return new CommandResult(false, responseString, CommandType.DELETE);
     }
 }

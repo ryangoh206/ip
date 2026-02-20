@@ -5,6 +5,21 @@
     -fx-background-size: cover;
 }
 
+.banner {
+    -fx-background-color: linear-gradient(to right, #2c3e50, #3498db);
+    -fx-padding: 10px;
+}
+
+.banner-title {
+    -fx-text-fill: white;
+    -fx-font: bold 14px "Arial";
+}
+
+.banner-date {
+    -fx-text-fill: #ecf0f1;
+    -fx-font: 11px "Arial";
+}
+
 .text-field {
 
     -fx-background-color: #ededed;
@@ -29,6 +44,10 @@
 .scroll-pane,
 .scroll-pane .viewport {
     -fx-background-color: transparent;
+}
+
+#dialogContainer {
+    -fx-spacing: 0;
 }
 
 .scroll-bar {

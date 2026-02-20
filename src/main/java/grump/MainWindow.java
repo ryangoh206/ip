@@ -1,12 +1,18 @@
 package grump;
 
+import grump.command.CommandResult;
+import grump.enums.CommandType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Controller for the main GUI.
@@ -20,6 +26,8 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
     @FXML
     private Button sendButton;
+    @FXML
+    private Label bannerDateLabel;
 
     private Grump grump;
 
@@ -28,19 +36,24 @@ public class MainWindow extends AnchorPane {
             new Image(this.getClass().getResourceAsStream("/images/DaGrump.png"));
 
     /**
-     * Initializes the main window by binding the scroll pane to auto-scroll on new content.
+     * Initializes the main window by binding the scroll pane to auto-scroll on new content
+     * and sets the current date in the banner.
      */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        // Set current date in the banner
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy");
+        bannerDateLabel.setText(today.format(formatter));
     }
 
     /** Injects the Grump instance */
     public void setGrump(Grump grump) {
         assert grump != null : "Grump instance cannot be null";
         this.grump = grump;
-        dialogContainer.getChildren()
-                .addAll(DialogBox.getGrumpDialog(grump.getGreeting(), grumpImage));
+        dialogContainer.getChildren().addAll(
+                DialogBox.getGrumpDialog(grump.getGreeting(), grumpImage, CommandType.GREETING));
     }
 
     /**
@@ -51,10 +64,11 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         assert input != null : "User input should not be null";
-        String response = grump.getResponseForGui(input);
-        assert response != null : "Response from Grump should not be null";
+        CommandResult commandResult = grump.getResponseForGui(input);
+        assert commandResult != null : "Response from Grump should not be null";
         dialogContainer.getChildren().addAll(DialogBox.getUserDialog(input, userImage),
-                DialogBox.getGrumpDialog(response, grumpImage));
+                DialogBox.getGrumpDialog(commandResult.getResponseString(), grumpImage,
+                        commandResult.getCommandType()));
         userInput.clear();
     }
 }

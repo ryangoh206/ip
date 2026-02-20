@@ -29,6 +29,7 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane rootPane = fxmlLoader.load();
             Scene scene = new Scene(rootPane);
+            stage.setTitle("Grump Task Logger Bot");
             stage.setScene(scene);
             stage.setMinHeight(MIN_WINDOW_HEIGHT);
             stage.setMinWidth(MIN_WINDOW_WIDTH);
