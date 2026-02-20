@@ -5,32 +5,52 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class ToDoTest {
-    @Test
-    void testConstructorAndGetters() {
-        ToDo todo = new ToDo("Buy groceries");
-        assertEquals("Buy groceries", todo.description);
-        assertEquals(" ", todo.getStatusIcon());
 
-        ToDo todoDone = new ToDo("Finish homework", true);
-        assertEquals("Finish homework", todoDone.description);
-        assertEquals("X", todoDone.getStatusIcon());
+    @Test
+    void testToStringFormat() {
+        ToDo todo = new ToDo("Read book");
+
+        assertEquals("[T][ ] Read book (Tags: [])", todo.toString());
     }
 
     @Test
-    void testToString() {
-        ToDo todo = new ToDo("Read book");
-        assertEquals("[T][ ] Read book (Tags: [])", todo.toString());
-
+    void testToStringWithDoneStatus() {
         ToDo todoDone = new ToDo("Write report", true);
+
         assertEquals("[T][X] Write report (Tags: [])", todoDone.toString());
     }
 
     @Test
-    void testToCsvString() {
-        ToDo todo = new ToDo("Clean room");
-        assertEquals("T,Clean room,0,[]", todo.toCsvString());
+    void testToStringWithTags() {
+        ToDo todo = new ToDo("Prepare presentation");
+        todo.addTag("work");
+        todo.addTag("urgent");
+        String result = todo.toString();
 
+        assertEquals("[T][ ] Prepare presentation (Tags: [work, urgent])", result);
+    }
+
+    @Test
+    void testToCsvStringFormat() {
+        ToDo todo = new ToDo("Clean room");
+
+        assertEquals("T,Clean room,0,[]", todo.toCsvString());
+    }
+
+    @Test
+    void testToCsvStringWithDone() {
         ToDo todoDone = new ToDo("Pay bills", true);
+
         assertEquals("T,Pay bills,1,[]", todoDone.toCsvString());
     }
+
+    @Test
+    void testToCsvStringWithTags() {
+        ToDo todo = new ToDo("Prepare presentation");
+        todo.addTag("work");
+        todo.addTag("urgent");
+
+        assertEquals("T,Prepare presentation,0,[work, urgent]", todo.toCsvString());
+    }
+
 }
